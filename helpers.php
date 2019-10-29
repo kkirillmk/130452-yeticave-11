@@ -143,4 +143,14 @@ function include_template($name, array $data = []) {
     return $result;
 }
 
+function price_format($price) {
+    ceil($price);
+    $result = "";
+    if ($price < 1000){
+        return $price;
+    } else {
+        $result = number_format($price, 0, '.',' ');
+    }
+    return $result . " ₽";
+}
 

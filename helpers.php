@@ -144,9 +144,10 @@ function include_template($name, array $data = []) {
 }
 
 function price_format($price) {
-    ceil($price);
+    $price = ceil($price);
     $result = "";
-    if ($price < 1000){
+
+    if ($price < 1000) {
         return $price;
     } else {
         $result = number_format($price, 0, '.',' ');

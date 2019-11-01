@@ -45,7 +45,7 @@ $items = [["name" => "2014 Rossignol District Snowboard", "category" => "Дос�
         <nav class="user-menu">
             <?php if($is_auth): ?>
             <div class="user-menu__logged">
-                <p><?=$user_name ?></p>
+                <p><?= $user_name; ?></p>
                 <a class="user-menu__bets" href="pages/my-bets.html">Мои ставки</a>
                 <a class="user-menu__logout" href="#">Выход</a>
             </div>
@@ -70,7 +70,7 @@ $items = [["name" => "2014 Rossignol District Snowboard", "category" => "Дос�
         <ul class="promo__list">
             <?php foreach ($cats as $value): ?>
                 <li class="promo__item promo__item--boards">
-                    <a class="promo__link" href="pages/all-lots.html"><?=$value; ?></a>
+                    <a class="promo__link" href="pages/all-lots.html"><?= $value; ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -83,15 +83,15 @@ $items = [["name" => "2014 Rossignol District Snowboard", "category" => "Дос�
             <?php foreach ($items as $item): ?>
                 <li class="lots__item lot">
                     <div class="lot__image">
-                        <img src="<?=$item["img"]; ?>" width="350" height="260" alt="">
+                        <img src="<?= $item["img"]; ?>" width="350" height="260" alt="">
                     </div>
                     <div class="lot__info">
-                        <span class="lot__category"><?=$item["category"]; ?></span>
-                        <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?=$item["name"]; ?></a></h3>
+                        <span class="lot__category"><?= $item["category"]; ?></span>
+                        <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?= $item["name"]; ?></a></h3>
                         <div class="lot__state">
                             <div class="lot__rate">
                                 <span class="lot__amount">Стартовая цена</span>
-                                <span class="lot__cost"><?=price_format($item["price"]); ?></span>
+                                <span class="lot__cost"><?= priceFormat($item["price"]); ?></span>
                             </div>
                             <div class="lot__timer timer">
                                 12:23

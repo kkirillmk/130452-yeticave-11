@@ -143,7 +143,7 @@ function include_template($name, array $data = []) {
     return $result;
 }
 
-function price_format($price) {
+function priceFormat($price) {
     $price = ceil($price);
     $result = "";
 

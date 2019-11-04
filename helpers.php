@@ -20,6 +20,26 @@ function is_date_valid(string $date) : bool {
     return $dateTimeObj !== false && array_sum(date_get_last_errors()) === 0;
 }
 
+function dateEndOfLot($end_date) {
+    return print $end_date;
+    date_default_timezone_set("Europe/Moscow");
+    $cur_ts_time = time();
+    $hours = 0;
+    $minutes = 0;
+    $ts_remain = 0;
+    if (is_date_valid($end_date)) {
+        $end_date = strtotime($end_date);
+        $ts_remain = $end_date - $cur_ts_time;
+        $hours = floor($ts_remain / 3600);
+        $minutes = floor(($ts_remain % 3600) / 60);
+        $minutes = str_pad($minutes, 2, "0", STR_PAD_LEFT);
+        return print ($hours . ":" . $minutes);
+    }
+    else {
+        return false;
+    }
+}
+
 /**
  * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
  *

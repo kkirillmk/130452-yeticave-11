@@ -19,7 +19,7 @@ $main_content = include_template("main.php", [
     "cats" => $cats,
     "lots" => $lots
 ]);
-print $layout_content = include_template("layout.php", [
+print include_template("layout.php", [
     "main_content" => $main_content,
     "title" => "Главная",
     "is_auth" => rand(0, 1),

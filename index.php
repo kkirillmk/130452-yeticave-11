@@ -15,10 +15,6 @@ $lots = [["name" => "2014 Rossignol District Snowboard", "category" => "Доск
     ["name" => "Маска Oakley Canopy", "category" => "Разное",
         "price" => 5400, "img" => "img/lot-6.jpg"]];
 
-$is_auth = 0;
-$user_name = "";
-$title = "";
-
 $main_content = include_template("main.php", [
     "cats" => $cats,
     "lots" => $lots

@@ -31,13 +31,14 @@ function dateEndOfLot($end_date) {
         $ts_remain = $end_date - $cur_ts_time;
         $hours = floor($ts_remain / 3600);
         $minutes = floor(($ts_remain % 3600) / 60);
+        $hours = str_pad($hours, 2, "0", STR_PAD_LEFT);
         $minutes = str_pad($minutes, 2, "0", STR_PAD_LEFT);
         return $hours . ":" . $minutes;
     }
     else {
         return false;
     }
-}
+};
 
 /**
  * Создает подготовленное выражение на основе готового SQL запроса и переданных данных

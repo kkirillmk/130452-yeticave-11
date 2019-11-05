@@ -21,7 +21,6 @@ function is_date_valid(string $date) : bool {
 }
 
 function dateEndOfLot($end_date) {
-    return print $end_date;
     date_default_timezone_set("Europe/Moscow");
     $cur_ts_time = time();
     $hours = 0;
@@ -33,7 +32,7 @@ function dateEndOfLot($end_date) {
         $hours = floor($ts_remain / 3600);
         $minutes = floor(($ts_remain % 3600) / 60);
         $minutes = str_pad($minutes, 2, "0", STR_PAD_LEFT);
-        return print ($hours . ":" . $minutes);
+        return $hours . ":" . $minutes;
     }
     else {
         return false;

@@ -15,7 +15,7 @@ id_category INT,
 date_created DATE,
 name VARCHAR(128) NOT NULL,
 description TEXT,
-src VARCHAR(256) UNIQUE,
+img VARCHAR(256) UNIQUE,
 starting_price INT,
 date_end DATE,
 bet_step INT

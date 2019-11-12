@@ -3,8 +3,8 @@
     <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
     <ul class="promo__list">
         <?php foreach ($cats as $value): ?>
-            <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="../pages/all-lots.html"><?= $value; ?></a>
+            <li class="promo__item promo__item--<?= $value["character_code"] ?>">
+                <a class="promo__link" href="../pages/all-lots.html"><?= $value["name"]; ?></a>
             </li>
         <?php endforeach; ?>
     </ul>
@@ -24,14 +24,19 @@
                     <h3 class="lot__title"><a class="text-link" href="../pages/lot.html"><?= $lot["name"]; ?></a></h3>
                     <div class="lot__state">
                         <div class="lot__rate">
-                            <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?= priceFormat($lot["price"]); ?></span>
+                            <?php if ($lot["current_price"]): ?>
+                                <span class="lot__amount">Текущая цена</span>
+                                <span class="lot__cost"><?= priceFormat($lot["current_price"]); ?></span>
+                            <?php else: ?>
+                                <span class="lot__amount">Стартовая цена</span>
+                                <span class="lot__cost"><?= priceFormat($lot["starting_price"]); ?></span>
+                            <?php endif; ?>
                         </div>
                         <div class="lot__timer timer
-                                    <?php if(strspn((dateEndOfLot($lot["end_date"])),"00:")): ?>
+                                    <?php if(strspn((dateEndOfLot($lot["date_end"])),"00:")): ?>
                                     timer--finishing
                                     <?php endif; ?>">
-                            <?= dateEndOfLot($lot["end_date"]); ?>
+                            <?= dateEndOfLot($lot["date_end"]); ?>
                         </div>
                     </div>
                 </div>

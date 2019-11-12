@@ -1,4 +1,4 @@
-INSERT INTO categories (name, chararcter)
+INSERT INTO categories (name, character_code)
 VALUES ('Доски и лыжи', 'boards'),
        ('Крепления', 'attachment'),
        ('Ботинки', 'boots'),
@@ -25,7 +25,7 @@ VALUES ('2', '5', '2019-11-10 11:30:00', '5500'),
 
 SELECT name FROM categories;
 
-SELECT l.name, starting_price, img, MAX(b.bet_sum) AS current_price, c.name FROM lots l
+SELECT l.name, starting_price, img, MAX(b.bet_sum) AS current_price, c.name  AS category, date_end FROM lots l
 LEFT JOIN bets b ON b.id_lot = l.id
 JOIN categories c ON c.id = l.id_category
 WHERE l.date_end > NOW()

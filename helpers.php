@@ -26,6 +26,7 @@ function dateEndOfLot($end_date) {
     $hours = 0;
     $minutes = 0;
     $ts_remain = 0;
+
     if (is_date_valid($end_date)) {
         $end_date = strtotime($end_date);
         $ts_remain = $end_date - $cur_ts_time;

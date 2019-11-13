@@ -22,7 +22,7 @@
             <a class="main-header__add-lot button" href="../pages/add-lot.html">Добавить лот</a>
 
             <nav class="user-menu">
-                <?php if($is_auth): ?>
+                <?php if ($is_auth): ?>
                     <div class="user-menu__logged">
                         <p><?= $user_name; ?></p>
                         <a class="user-menu__bets" href="../pages/my-bets.html">Мои ставки</a>
@@ -50,10 +50,11 @@
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <!--заполните этот список из массива категорий-->
+            <?php foreach ($cats as $value): ?>
             <li class="nav__item">
-                <a href="../pages/all-lots.html">Название категории</a>
+                <a href="../pages/all-lots.html"><?= $value["name"]; ?></a>
             </li>
+            <?php endforeach; ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">

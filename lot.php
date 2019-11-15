@@ -31,10 +31,7 @@ if (!$result) {
 }
 $cats = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-$main_content = include_template("main.php", [
-    "cats" => $cats,
-    "lots" => $lots
-]);
+$main_content = include_template("lot.php");
 echo include_template("layout.php", [
     "main_content" => $main_content,
     "title" => "Главная",
@@ -42,3 +39,4 @@ echo include_template("layout.php", [
     "user_name" => "Kirill",
     "cats" => $cats
 ]);
+

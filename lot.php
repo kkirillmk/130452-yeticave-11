@@ -6,17 +6,22 @@ mysqli_set_charset($sql_connect, "utf-8");
 
 $lots = [];
 $cats = [];
+$id_lot = filter_input(INPUT_GET, 'id');;
+
+if (!$id_lot) {
+    echo "Ошибка получения параметра запроса";
+    exit;
+}
 
 if (!$sql_connect) {
     echo ("Ошибка подключения: " . mysqli_connect_error());
     exit;
 }
-$sql = "SELECT l.`name`, `starting_price`, `img`, MAX(b.`bet_sum`) AS `current_price`,
-        c.`name`  AS `category`, `date_end` FROM lots l
+$sql = "SELECT l.`id`, l.`name`, `starting_price`, `img`, MAX(b.`bet_sum`) AS `current_price`,
+        c.`name`  AS `category`, `date_end`, `description`, `bet_step` FROM lots l
         LEFT JOIN `bets` b ON b.`id_lot` = l.`id`
         JOIN `categories` c ON c.`id` = l.`id_category`
-        WHERE l.`date_end` > NOW()
-        GROUP BY l.`id` ORDER BY l.`id` DESC";
+        WHERE l.id = $id_lot";
 $result = mysqli_query($sql_connect, $sql);
 if (!$result) {
     echo ("Ошибка запроса: " . mysqli_error($sql_connect));
@@ -31,7 +36,19 @@ if (!$result) {
 }
 $cats = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-$main_content = include_template("lot.php");
+$lots_id_list = "";
+
+foreach ($lots as $lot) {
+    $lots_id_list .= " {$lot["id"]}";
+}
+if (!strpos("$lots_id_list", "$id_lot")) {
+    http_response_code(404);
+}
+
+$main_content = include_template("lot.php", [
+    "cats" => $cats,
+    "lots" => $lots
+]);
 echo include_template("layout.php", [
     "main_content" => $main_content,
     "title" => "Главная",

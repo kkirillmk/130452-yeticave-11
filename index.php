@@ -1,6 +1,5 @@
 <?php
 require_once "helpers.php";
-
 $sql_connect = mysqli_connect("127.0.0.1", "root", "", "yeticave");
 mysqli_set_charset($sql_connect, "utf-8");
 
@@ -11,7 +10,7 @@ if (!$sql_connect) {
     echo ("Ошибка подключения: " . mysqli_connect_error());
     exit;
 }
-$sql = "SELECT l.`name`, `starting_price`, `img`, MAX(b.`bet_sum`) AS `current_price`,
+$sql = "SELECT l.`id`, l.`name`, `starting_price`, `img`, MAX(b.`bet_sum`) AS `current_price`,
         c.`name`  AS `category`, `date_end` FROM lots l
         LEFT JOIN `bets` b ON b.`id_lot` = l.`id`
         JOIN `categories` c ON c.`id` = l.`id_category`

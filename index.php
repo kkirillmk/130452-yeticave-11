@@ -1,34 +1,21 @@
 <?php
 require_once "helpers.php";
-$sql_connect = mysqli_connect("127.0.0.1", "root", "", "yeticave");
-mysqli_set_charset($sql_connect, "utf-8");
+
+$sql_connect = connectDB("127.0.0.1", "root", "", "yeticave");
 
 $lots = [];
 $cats = [];
 
-if (!$sql_connect) {
-    echo ("Ошибка подключения: " . mysqli_connect_error());
-    exit;
-}
-$sql = "SELECT l.`id`, l.`name`, `starting_price`, `img`, MAX(b.`bet_sum`) AS `current_price`,
-        c.`name`  AS `category`, `date_end` FROM lots l
-        LEFT JOIN `bets` b ON b.`id_lot` = l.`id`
-        JOIN `categories` c ON c.`id` = l.`id_category`
-        WHERE l.`date_end` > NOW()
-        GROUP BY l.`id` ORDER BY l.`id` DESC";
-$result = mysqli_query($sql_connect, $sql);
-if (!$result) {
-    echo ("Ошибка запроса: " . mysqli_error($sql_connect));
-    exit;
-}
-$lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$sql = "SELECT lots.`id`, lots.`name`, `starting_price`, `img`, MAX(bets.`bet_sum`) AS `current_price`,
+        cats.`name`  AS `category`, `date_end` FROM lots
+        LEFT JOIN `bets` ON bets.`id_lot` = lots.`id`
+        JOIN `categories` cats ON cats.`id` = lots.`id_category`
+        WHERE lots.`date_end` > NOW()
+        GROUP BY lots.`id` ORDER BY lots.`id` DESC";
+$lots = sqlToArray($sql_connect, $sql);
+
 $sql = "SELECT * FROM `categories`";
-$result = mysqli_query($sql_connect, $sql);
-if (!$result) {
-    echo ("Ошибка запроса: " . mysqli_error($sql_connect));
-    exit;
-}
-$cats = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$cats = sqlToArray($sql_connect, $sql);
 
 $main_content = include_template("main.php", [
     "cats" => $cats,

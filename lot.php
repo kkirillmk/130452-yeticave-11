@@ -1,48 +1,35 @@
 <?php
 require_once "helpers.php";
 
-$sql_connect = mysqli_connect("127.0.0.1", "root", "", "yeticave");
-mysqli_set_charset($sql_connect, "utf-8");
+$sql_connect = connectDB("127.0.0.1", "root", "", "yeticave");
 
-$lots = [];
-$cats = [];
-$id_lot = filter_input(INPUT_GET, 'id');;
-
+$id_lot = filter_input(INPUT_GET, 'id');
 if (!$id_lot) {
     echo "Ошибка получения параметра запроса";
     exit;
 }
 
-if (!$sql_connect) {
-    echo ("Ошибка подключения: " . mysqli_connect_error());
-    exit;
-}
-$sql = "SELECT l.`id`, l.`name`, `starting_price`, `img`, MAX(b.`bet_sum`) AS `current_price`,
-        c.`name`  AS `category`, `date_end`, `description`, `bet_step` FROM lots l
-        LEFT JOIN `bets` b ON b.`id_lot` = l.`id`
-        JOIN `categories` c ON c.`id` = l.`id_category`
-        WHERE l.id = $id_lot";
-$result = mysqli_query($sql_connect, $sql);
-if (!$result) {
-    echo ("Ошибка запроса: " . mysqli_error($sql_connect));
-    exit;
-}
-$lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
-$sql = "SELECT * FROM `categories`";
-$result = mysqli_query($sql_connect, $sql);
-if (!$result) {
-    echo ("Ошибка запроса: " . mysqli_error($sql_connect));
-    exit;
-}
-$cats = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$lots = [];
+$cats = [];
 
-$lots_id_list = "";
+$sql = "SELECT lots.`id`, lots.`name`, `starting_price`, `img`, MAX(bets.`bet_sum`) AS `current_price`,
+        cats.`name`  AS `category`, `date_end`, `description`, `bet_step` FROM lots
+        LEFT JOIN `bets` ON bets.`id_lot` = lots.`id`
+        JOIN `categories` cats ON cats.`id` = lots.`id_category`
+        WHERE lots.id = $id_lot";
+$lots = sqlToArray($sql_connect, $sql);
+
+$sql = "SELECT * FROM `categories`";
+$cats = sqlToArray($sql_connect, $sql);
+
+$lots_id_list = [];
 
 foreach ($lots as $lot) {
-    $lots_id_list .= " {$lot["id"]}";
+    $lots_id_list[] = $lot["id"];
 }
-if (!strpos("$lots_id_list", "$id_lot")) {
+if (!in_array($id_lot, $lots_id_list)) {
     http_response_code(404);
+    exit;
 }
 
 $main_content = include_template("lot.php", [

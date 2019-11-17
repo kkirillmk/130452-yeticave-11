@@ -176,3 +176,21 @@ function priceFormat($price) {
     return $result . " ₽";
 }
 
+function connectDB($host, $user, $password, $database) {
+    $sql_connect = mysqli_connect($host, $user, $password, $database);
+    mysqli_set_charset($sql_connect, "utf-8");
+    if (!$sql_connect) {
+        echo ("Ошибка подключения: " . mysqli_connect_error());
+        exit;
+    }
+    return $sql_connect;
+}
+
+function sqlToArray($sql_connect, $sql) {
+    $result = mysqli_query($sql_connect, $sql);
+    if (!$result) {
+        echo ("Ошибка запроса: " . mysqli_error($sql_connect));
+        exit;
+    }
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+}

@@ -194,3 +194,36 @@ function sqlToArray($sql_connect, $sql) {
     }
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
+
+function validateGreaterThanZero($value) {
+    if (!is_numeric($value)){
+        return "Введенное значение не является числом";
+    } elseif ($value < 0) {
+        return "Введенное значение меньше нуля";
+    }
+
+    return null;
+}
+
+function validateDateEndOfLot($date) {
+    $ts_date = strtotime($date);
+    $tomorrow = time() + 86400;
+
+    if (!is_date_valid($date)) {
+        return "Дата введена в неправильном формате (ГГГГ-ММ-ДД)";
+    } elseif (!($ts_date > $tomorrow)) {
+        return "Указанная дата должна быть больше текущей даты, хотя бы на один день";
+    }
+
+    return null;
+}
+
+function validateIntGreaterThanZero($value) {
+    if (!is_int($value)){
+        return "Введенное значение не является целым числом";
+    } elseif ($value < 0) {
+        return "Введенное значение меньше нуля";
+    }
+
+    return null;
+}

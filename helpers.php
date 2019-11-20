@@ -219,11 +219,28 @@ function validateDateEndOfLot($date) {
 }
 
 function validateIntGreaterThanZero($value) {
-    if (!is_int($value)){
+
+    if (!filter_var($value, FILTER_VALIDATE_INT)){
         return "Введенное значение не является целым числом";
     } elseif ($value < 0) {
         return "Введенное значение меньше нуля";
     }
 
     return null;
+}
+
+function saveFormat($tmp_name, string $format) {
+    $file_name = uniqid() . $format;
+    move_uploaded_file($tmp_name, 'uploads/' . $file_name);
+    return $file_name;
+}
+
+function validateCategory($id, $allowed_list) {
+    if (!in_array($id, $allowed_list)) {
+        return "Указана несуществующая категория";
+    }
+}
+
+function getPostVal($name) {
+    return filter_input(INPUT_POST, $name);
 }

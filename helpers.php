@@ -244,3 +244,28 @@ function validateCategory($id, $allowed_list) {
 function getPostVal($name) {
     return filter_input(INPUT_POST, $name);
 }
+
+function getCategories($sql_connect) {
+    $sql = "SELECT * FROM `categories`";
+    return sqlToArray($sql_connect, $sql);
+}
+
+function saveImage($post, string $name_image, $errors, $path = "path") {
+    if (!empty($_FILES[$name_image]["name"])) {
+        $tmp_name = $_FILES[$name_image]["tmp_name"];
+        $file_type = mime_content_type($tmp_name);
+        $file_name = "";
+
+        switch ($file_type) {
+            case "image/jpeg":
+                return $post[$path] = "uploads/" . saveFormat($tmp_name, ".jpeg");
+            case "image/png":
+                return $post[$path] = "uploads/" . saveFormat($tmp_name, ".png");
+            default:
+                return $errors[$name_image] = "Загрузите картинку в формате .jpeg, .jpg или .png";
+        }
+    }
+    else {
+        return $errors[$name_image] = 'Вы не загрузили файл';
+    }
+}

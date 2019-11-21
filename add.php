@@ -3,8 +3,7 @@ require_once "helpers.php";
 
 $sql_connect = connectDB("127.0.0.1", "root", "", "yeticave");
 
-$sql = "SELECT * FROM `categories`";
-$cats = sqlToArray($sql_connect, $sql);
+$cats = getCategories($sql_connect);
 $cats_ids = array_column($cats, 'id');
 
 $lot = [];
@@ -52,27 +51,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $errors = array_filter($errors);
 
-    if (!empty($_FILES["lot-img"]["name"])) {
-        $tmp_name = $_FILES["lot-img"]["tmp_name"];
-        $file_type = mime_content_type($tmp_name);
-        $file_name = "";
-
-        switch ($file_type) {
-            case "image/jpeg":
-                $lot["path"] = "uploads/" . saveFormat($tmp_name, ".jpeg");
-                break;
-            case "image/png":
-                $lot["path"] = "uploads/" . saveFormat($tmp_name, ".png");
-                break;
-            default:
-                $errors["lot-img"] = "Загрузите картинку в формате .jpeg, .jpg или .png";
-        }
-    }
-    else {
-        $errors["lot-img"] = 'Вы не загрузили файл';
+    $value_of_save = saveImage($lot, "lot-img", $errors);
+    if (strpos($value_of_save, "uploads") !== false) {
+        $lot["path"] = $value_of_save;
+    } else {
+        $errors["lot-img"] = $value_of_save;
     }
 
-    if (count($errors)) {
+    if (count($errors) === 0) {
         $main_content = include_template("add.php", ["lot" => $lot,
                                         "errors" => $errors, "cats" => $cats]);
     } else {

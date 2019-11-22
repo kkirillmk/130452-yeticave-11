@@ -194,3 +194,78 @@ function sqlToArray($sql_connect, $sql) {
     }
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
+
+function validateGreaterThanZero($value) {
+    if (!is_numeric($value)){
+        return "Введенное значение не является числом";
+    } elseif ($value < 0) {
+        return "Введенное значение меньше нуля";
+    }
+
+    return null;
+}
+
+function validateDateEndOfLot($date) {
+    $ts_date = strtotime($date);
+    $tomorrow = time() + 86400;
+
+    if (!is_date_valid($date)) {
+        return "Дата введена в неправильном формате (ГГГГ-ММ-ДД)";
+    } elseif (!($ts_date > $tomorrow)) {
+        return "Указанная дата должна быть больше текущей даты, хотя бы на один день";
+    }
+
+    return null;
+}
+
+function validateIntGreaterThanZero($value) {
+
+    if (!filter_var($value, FILTER_VALIDATE_INT)){
+        return "Введенное значение не является целым числом";
+    } elseif ($value < 0) {
+        return "Введенное значение меньше нуля";
+    }
+
+    return null;
+}
+
+function saveFormat($tmp_name, string $format) {
+    $file_name = uniqid() . $format;
+    move_uploaded_file($tmp_name, 'uploads/' . $file_name);
+    return $file_name;
+}
+
+function validateCategory($id, $allowed_list) {
+    if (!in_array($id, $allowed_list)) {
+        return "Указана несуществующая категория";
+    }
+}
+
+function getPostVal($name) {
+    return filter_input(INPUT_POST, $name);
+}
+
+function getCategories($sql_connect) {
+    $sql = "SELECT * FROM `categories`";
+    return sqlToArray($sql_connect, $sql);
+}
+
+function saveImage($post, string $name_image, $errors, $path = "path") {
+    if (!empty($_FILES[$name_image]["name"])) {
+        $tmp_name = $_FILES[$name_image]["tmp_name"];
+        $file_type = mime_content_type($tmp_name);
+        $file_name = "";
+
+        switch ($file_type) {
+            case "image/jpeg":
+                return $post[$path] = "uploads/" . saveFormat($tmp_name, ".jpeg");
+            case "image/png":
+                return $post[$path] = "uploads/" . saveFormat($tmp_name, ".png");
+            default:
+                return $errors[$name_image] = "Загрузите картинку в формате .jpeg, .jpg или .png";
+        }
+    }
+    else {
+        return $errors[$name_image] = 'Вы не загрузили файл';
+    }
+}

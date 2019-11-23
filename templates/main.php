@@ -33,7 +33,7 @@
                             <?php endif; ?>
                         </div>
                         <div class="lot__timer timer
-                                    <?php if(strpos((dateEndOfLot($lot["date_end"])),"00:") !== false): ?>
+                                    <?php if(strpos((dateEndOfLot($lot["date_end"])),"00:") === 0): ?>
                                     timer--finishing
                                     <?php endif; ?>">
                             <?= dateEndOfLot($lot["date_end"]); ?>

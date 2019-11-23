@@ -52,13 +52,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = array_filter($errors);
 
     $value_of_save = saveImage($lot, "lot-img", $errors);
-    if (strpos($value_of_save, "uploads") !== false) {
+    if (strpos($value_of_save, "uploads") === 0) {
         $lot["path"] = $value_of_save;
     } else {
         $errors["lot-img"] = $value_of_save;
     }
 
-    if (count($errors) === 0) {
+    if (count($errors) !== 0) {
         $main_content = include_template("add.php", ["lot" => $lot,
                                         "errors" => $errors, "cats" => $cats]);
     } else {

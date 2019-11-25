@@ -1,7 +1,12 @@
 <?php
 require_once "helpers.php";
+require_once  "init.php";
 
-$sql_connect = connectDB("127.0.0.1", "root", "", "yeticave");
+if (($_SESSION)) {
+    http_response_code(403);
+    exit();
+}
+
 $cats = getCategories($sql_connect);
 
 $form = [];
@@ -45,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         if ($res && empty($errors)) {
-            header("Location: /");
+            header("Location: login.php");
             exit();
         }
     }
@@ -55,7 +60,5 @@ $main_content = include_template("sign-up.php", ["cats" => $cats, "errors" => $e
 echo include_template("layout.php", [
     "main_content" => $main_content,
     "title" => "Главная",
-    "is_auth" => rand(0, 1),
-    "user_name" => "Kirill",
     "cats" => $cats
 ]);

@@ -41,7 +41,7 @@
         <?php if (!empty($errors)):
             foreach ($errors as $val): ?>
                 <li><strong><?= $val; ?></strong></li>
-            <?php endforeach; endif;?>
+        <?php endforeach; endif;?>
     </ul>
   <button type="submit" class="button">Зарегистрироваться</button>
   <a class="text-link" href="#">Уже есть аккаунт</a>

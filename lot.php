@@ -1,7 +1,6 @@
 <?php
 require_once "helpers.php";
-
-$sql_connect = connectDB("127.0.0.1", "root", "", "yeticave");
+require_once "init.php";
 
 $id_lot = filter_input(INPUT_GET, 'id');
 if (!$id_lot) {
@@ -19,8 +18,7 @@ $sql = "SELECT lots.`id`, lots.`name`, `starting_price`, `img`, MAX(bets.`bet_su
         WHERE lots.id = $id_lot";
 $lots = sqlToArray($sql_connect, $sql);
 
-$sql = "SELECT * FROM `categories`";
-$cats = sqlToArray($sql_connect, $sql);
+$cats = getCategories($sql_connect);
 
 $lots_id_list = [];
 
@@ -39,8 +37,6 @@ $main_content = include_template("lot.php", [
 echo include_template("layout.php", [
     "main_content" => $main_content,
     "title" => "Главная",
-    "is_auth" => rand(0, 1),
-    "user_name" => "Kirill",
     "cats" => $cats
 ]);
 

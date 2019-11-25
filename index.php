@@ -1,7 +1,6 @@
 <?php
 require_once "helpers.php";
-
-$sql_connect = connectDB("127.0.0.1", "root", "", "yeticave");
+require_once  "init.php";
 
 $lots = [];
 $cats = [];
@@ -24,7 +23,5 @@ $main_content = include_template("main.php", [
 echo include_template("layout.php", [
     "main_content" => $main_content,
     "title" => "Главная",
-    "is_auth" => rand(0, 1),
-    "user_name" => "Kirill",
     "cats" => $cats
 ]);

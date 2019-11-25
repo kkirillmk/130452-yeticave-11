@@ -1,7 +1,11 @@
 <?php
 require_once "helpers.php";
+require_once "init.php";
 
-$sql_connect = connectDB("127.0.0.1", "root", "", "yeticave");
+if (empty($_SESSION)) {
+    http_response_code(403);
+    exit();
+}
 
 $cats = getCategories($sql_connect);
 $cats_ids = array_column($cats, 'id');
@@ -9,6 +13,7 @@ $cats_ids = array_column($cats, 'id');
 $lot = [];
 $fields = [];
 $errors = [];
+$id_author = $_SESSION["user"]["id"];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fields = ["lot-name", "category", "message", "lot-img", "lot-rate", "lot-step", "lot-date"];
@@ -64,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $sql = "INSERT INTO `lots` (`date_created`, `id_author`, `name`, `id_category`, `description`, `starting_price`,
                                     `bet_step`,  `date_end`, `img`)
-                VALUES (NOW(), 1, ?, ?, ?, ?, ?, ?, ?)";
+                VALUES (NOW(), '$id_author', ?, ?, ?, ?, ?, ?, ?)";
         $stmt = db_get_prepare_stmt($sql_connect, $sql, $lot);
         $res = mysqli_stmt_execute($stmt);
 
@@ -77,11 +82,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     $main_content = include_template("add.php", ["cats" => $cats]);
 }
-
+var_dump($_SESSION);
 echo include_template("layout.php", [
     "main_content" => $main_content,
     "title" => "Главная",
-    "is_auth" => rand(0, 1),
-    "user_name" => "Kirill",
     "cats" => $cats
 ]);

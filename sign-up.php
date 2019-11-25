@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($errors)) {
         $email = mysqli_real_escape_string($sql_connect, $form["email"]);
-        $sql = "SELECT `id` FROM `users` WHERE email = '$email'";
+        $sql = getUserIDByEmail($email);
         $res = mysqli_query($sql_connect, $sql);
 
         if (mysqli_num_rows($res) > 0) {

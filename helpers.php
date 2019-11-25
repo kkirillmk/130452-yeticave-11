@@ -269,3 +269,11 @@ function saveImage($post, string $name_image, $errors, $path = "path") {
         return $errors[$name_image] = 'Вы не загрузили файл';
     }
 }
+
+function getUserIDByEmail($email) {
+    return "SELECT `id` FROM `users` WHERE email = '$email'";
+}
+
+function getUserByEmail($email) {
+    return "SELECT * FROM `users` WHERE email = '$email'";
+}

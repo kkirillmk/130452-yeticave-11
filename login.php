@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $email = mysqli_real_escape_string($sql_connect, $form["email"]);
-    $sql = "SELECT * FROM `users` WHERE `email` = '$email'";
+    $sql = getUserByEmail($email);
     $res = mysqli_query($sql_connect, $sql);
 
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
@@ -32,12 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors["password"] = "Неверный пароль";
     }
 
-    if (count($errors) !== 0) {
-        $main_content = include_template("login.php", ["cats" => $cats, "form" => $form, "errors" => $errors]);
-    } else {
+    if (count($errors) === 0) {
         header("Location: /");
         exit();
     }
+
+    $main_content = include_template("login.php", ["cats" => $cats, "form" => $form, "errors" => $errors]);
+
 } else {
     $main_content = include_template("login.php", ["cats" => $cats]);
 

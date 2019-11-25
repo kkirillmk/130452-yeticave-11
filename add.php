@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     $main_content = include_template("add.php", ["cats" => $cats]);
 }
-var_dump($_SESSION);
+
 echo include_template("layout.php", [
     "main_content" => $main_content,
     "title" => "Главная",

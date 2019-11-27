@@ -36,3 +36,6 @@ name VARCHAR(128) NOT NULL,
 password varchar(128) NOT NULL,
 contacts TEXT
 );
+
+CREATE FULLTEXT INDEX lots_ft_search
+    ON lots(name, description);

@@ -11,12 +11,18 @@ $cats = getCategories($sql_connect);
 $cats_ids = array_column($cats, 'id');
 
 $lot = [];
-$fields = [];
 $errors = [];
 $id_author = $_SESSION["user"]["id"];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fields = ["lot-name", "category", "message", "lot-img", "lot-rate", "lot-step", "lot-date"];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $lot = filter_input_array(INPUT_POST, [
+        "lot-name" => FILTER_DEFAULT,
+        "category" => FILTER_DEFAULT,
+        "message" => FILTER_DEFAULT,
+        "lot-rate" => FILTER_DEFAULT,
+        "lot-step" => FILTER_DEFAULT,
+        "lot-date" => FILTER_DEFAULT
+    ], true);
 
     $rules = [
         "category" => function ($value) use ($cats_ids) {
@@ -32,17 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             return validateIntGreaterThanZero($value);
         }
     ];
-
-    $lot = filter_input_array(INPUT_POST, [
-            "lot-name" => FILTER_DEFAULT,
-            "category" => FILTER_DEFAULT,
-            "message" => FILTER_DEFAULT,
-            "lot-rate" => FILTER_DEFAULT,
-            "lot-step" => FILTER_DEFAULT,
-            "lot-date" => FILTER_DEFAULT
-            ], true
-    );
-
     foreach ($lot as $key => $value) {
         if (isset($rules[$key])) {
             $rule = $rules[$key];

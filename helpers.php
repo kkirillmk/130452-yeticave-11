@@ -195,9 +195,18 @@ function sqlToArray($sql_connect, $sql) {
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
+function sqlToArrayAssoc($sql_connect, $sql) {
+    $result = mysqli_query($sql_connect, $sql);
+    if (!$result) {
+        echo ("Ошибка запроса: " . mysqli_error($sql_connect));
+        exit;
+    }
+    return mysqli_fetch_assoc($result);
+}
+
 function validateGreaterThanZero($value) {
     if (!is_numeric($value)){
-        return "Введенное значение не является числом";
+        return "Введенное значение не является числом или равно нулю";
     } elseif ($value < 0) {
         return "Введенное значение меньше нуля";
     }
@@ -221,7 +230,7 @@ function validateDateEndOfLot($date) {
 function validateIntGreaterThanZero($value) {
 
     if (!filter_var($value, FILTER_VALIDATE_INT)){
-        return "Введенное значение не является целым числом";
+        return "Введенное значение не является целым числом или равно нулю";
     } elseif ($value < 0) {
         return "Введенное значение меньше нуля";
     }
@@ -271,9 +280,9 @@ function saveImage($post, string $name_image, $errors, $path = "path") {
 }
 
 function getUserIDByEmail($email) {
-    return "SELECT `id` FROM `users` WHERE email = '$email'";
+    return "SELECT `id` FROM `users` WHERE `email` = '$email'";
 }
 
 function getUserByEmail($email) {
-    return "SELECT * FROM `users` WHERE email = '$email'";
+    return "SELECT * FROM `users` WHERE `email` = '$email'";
 }

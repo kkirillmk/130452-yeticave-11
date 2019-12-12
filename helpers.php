@@ -21,7 +21,7 @@ function is_date_valid(string $date) : bool {
 }
 
 function dateEndOfLot($end_date) {
-    date_default_timezone_set("Europe/Moscow");
+    date_default_timezone_set("Asia/Novosibirsk");
     $cur_ts_time = time();
     $hours = 0;
     $minutes = 0;
@@ -195,9 +195,18 @@ function sqlToArray($sql_connect, $sql) {
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
+function sqlToArrayAssoc($sql_connect, $sql) {
+    $result = mysqli_query($sql_connect, $sql);
+    if (!$result) {
+        echo ("Ошибка запроса: " . mysqli_error($sql_connect));
+        exit;
+    }
+    return mysqli_fetch_assoc($result);
+}
+
 function validateGreaterThanZero($value) {
     if (!is_numeric($value)){
-        return "Введенное значение не является числом";
+        return "Введенное значение не является числом или равно нулю";
     } elseif ($value < 0) {
         return "Введенное значение меньше нуля";
     }
@@ -221,7 +230,7 @@ function validateDateEndOfLot($date) {
 function validateIntGreaterThanZero($value) {
 
     if (!filter_var($value, FILTER_VALIDATE_INT)){
-        return "Введенное значение не является целым числом";
+        return "Введенное значение не является целым числом или равно нулю";
     } elseif ($value < 0) {
         return "Введенное значение меньше нуля";
     }
@@ -271,9 +280,33 @@ function saveImage($post, string $name_image, $errors, $path = "path") {
 }
 
 function getUserIDByEmail($email) {
-    return "SELECT `id` FROM `users` WHERE email = '$email'";
+    return "SELECT `id` FROM `users` WHERE `email` = '$email'";
 }
 
 function getUserByEmail($email) {
-    return "SELECT * FROM `users` WHERE email = '$email'";
+    return "SELECT * FROM `users` WHERE `email` = '$email'";
+}
+
+function countingFromTheDateInHours($date_of_reference) {
+    date_default_timezone_set("Asia/Novosibirsk");
+    $date_of_reference = strtotime($date_of_reference);
+    $current_time = time();
+    return floor(($current_time - $date_of_reference)/(60*60));
+}
+
+function databaseInsertData($link, $sql, $data = []) {
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+    $result = mysqli_stmt_execute($stmt);
+    if ($result) {
+        $result = mysqli_insert_id($link);
+    }
+    return $result;
+}
+
+function checkOnWin($bet_id, $win_bet_ids) {
+    foreach ($win_bet_ids as $value) {
+        foreach ($value as $win_id) {
+
+        }
+    }
 }

@@ -1,6 +1,7 @@
 <section class="promo">
     <h2 class="promo__title">Нужен стафф для катки?</h2>
-    <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
+    <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное
+        снаряжение.</p>
     <ul class="promo__list">
         <?php foreach ($cats as $value): ?>
             <li class="promo__item promo__item--<?= $value["character_code"] ?>">
@@ -21,7 +22,8 @@
                 </div>
                 <div class="lot__info">
                     <span class="lot__category"><?= $lot["category"]; ?></span>
-                    <h3 class="lot__title"><a class="text-link" href="../lot.php?id=<?= $lot["id"]; ?>"><?= $lot["name"]; ?></a></h3>
+                    <h3 class="lot__title"><a class="text-link"
+                                              href="../lot.php?id=<?= $lot["id"]; ?>"><?= $lot["name"]; ?></a></h3>
                     <div class="lot__state">
                         <div class="lot__rate">
                             <?php if ($lot["current_price"]): ?>
@@ -33,7 +35,7 @@
                             <?php endif; ?>
                         </div>
                         <div class="lot__timer timer
-                                    <?php if(strpos((dateEndOfLot($lot["date_end"])),"00:") === 0): ?>
+                                    <?php if (strpos((dateEndOfLot($lot["date_end"])), "00:") === 0): ?>
                                     timer--finishing
                                     <?php endif; ?>">
                             <?= dateEndOfLot($lot["date_end"]); ?>

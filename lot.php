@@ -31,6 +31,15 @@ $sql = "SELECT `bet_step` FROM `lots`
         WHERE `id` = '$id_lot'";
 $bet_step = sqlToArrayAssoc($sql_connect, $sql);
 $bet_step = $bet_step["bet_step"];
+
+$lot_price = "";
+if ($lots[0]["current_price"]) {
+    $lot_price = $lots[0]["current_price"];
+} else {
+    $lot_price = $lots[0]["starting_price"];
+}
+
+$min_bet = $bet_step + $lot_price;
 $form = [];
 $rule = [];
 $errors = [];
@@ -52,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors["cost"] = $rule($form["cost"]);
     }
 
-    if ($bet_step > $form["cost"]) {
+    if ($form["cost"] < $min_bet) {
         $errors[] = "Введенная ставка меньше минимальной";
     }
     $errors = array_filter($errors);
@@ -62,29 +71,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "lots" => $lots,
             "errors" => $errors,
             "cats" => $cats,
-            "bet_step" => $bet_step
+            "min_bet" => $min_bet
         ]);
-    }
-    else {
-        $price = $lot["current_price"] ?? $lot["starting_price"];
-        $price += $form["cost"];
-        mysqli_real_escape_string($sql_connect, $price);
+    } else {
+
         $sql = "INSERT INTO `bets` (date_placing, id_user, id_lot, bet_sum)
-                VALUES (NOW(), '$id_author', '$id_lot', '$price')";
-        $res = mysqli_query($sql_connect, $sql);
+                VALUES (NOW(), '$id_author', '$id_lot', ?)";
+        if (!databaseInsertData($sql_connect, $sql, $form)) {
+            echo "Данные не добавлены";
+            exit();
+        }
 
         $main_content = include_template("lot.php", [
             "cats" => $cats,
             "lots" => $lots,
-            "bet_step" => $bet_step
+            "min_bet" => $min_bet
         ]);
-        header ("Location: /lot.php?id=$id_lot");
+        header("Location: /lot.php?id=$id_lot");
     }
 } else {
     $main_content = include_template("lot.php", [
         "cats" => $cats,
         "lots" => $lots,
-        "bet_step" => $bet_step
+        "min_bet" => $min_bet
     ]);
 }
 

@@ -21,7 +21,7 @@ function is_date_valid(string $date) : bool {
 }
 
 function dateEndOfLot($end_date) {
-    date_default_timezone_set("Europe/Moscow");
+    date_default_timezone_set("Asia/Novosibirsk");
     $cur_ts_time = time();
     $hours = 0;
     $minutes = 0;
@@ -285,4 +285,28 @@ function getUserIDByEmail($email) {
 
 function getUserByEmail($email) {
     return "SELECT * FROM `users` WHERE `email` = '$email'";
+}
+
+function countingFromTheDateInHours($date_of_reference) {
+    date_default_timezone_set("Asia/Novosibirsk");
+    $date_of_reference = strtotime($date_of_reference);
+    $current_time = time();
+    return floor(($current_time - $date_of_reference)/(60*60));
+}
+
+function databaseInsertData($link, $sql, $data = []) {
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+    $result = mysqli_stmt_execute($stmt);
+    if ($result) {
+        $result = mysqli_insert_id($link);
+    }
+    return $result;
+}
+
+function checkOnWin($bet_id, $win_bet_ids) {
+    foreach ($win_bet_ids as $value) {
+        foreach ($value as $win_id) {
+
+        }
+    }
 }

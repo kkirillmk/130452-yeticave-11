@@ -1,6 +1,6 @@
 <?php
 require_once "helpers.php";
-require_once  "init.php";
+require_once "init.php";
 
 if (($_SESSION)) {
     http_response_code(403);
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ], true
     );
 
-    foreach ($fields as $value){
+    foreach ($fields as $value) {
         if (empty($form[$value])) {
             $errors[$value] = "Поле $value не заполнено";
         }
@@ -44,8 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $sql = "INSERT INTO `users` (`date_registration`, `email`, `password`, `name`, `contacts`)
             VALUES (NOW(), ?, ?, ?, ?)";
-            $stmt = db_get_prepare_stmt($sql_connect, $sql, [$form["email"], $password,
-                                                            $form["name"], $form["message"]]);
+            $stmt = db_get_prepare_stmt($sql_connect, $sql, [
+                $form["email"],
+                $password,
+                $form["name"],
+                $form["message"]
+            ]);
             $res = mysqli_stmt_execute($stmt);
         }
 

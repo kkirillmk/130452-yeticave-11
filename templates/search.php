@@ -31,7 +31,7 @@
                                         <span class="lot__cost"><?= $lot["current_price"] ?><b class="rub">р</b></span>
                                     </div>
                                     <div class="lot__timer timer
-                                    <?php if(strpos((dateEndOfLot($lot["date_end"])),"00:") === 0): ?>
+                                    <?php if (strpos((dateEndOfLot($lot["date_end"])), "00:") === 0): ?>
                                     timer--finishing
                                     <?php endif; ?>">
                                         <?= dateEndOfLot($lot["date_end"]); ?>
@@ -57,7 +57,7 @@
                                         <span class="lot__cost"><?= $lot["starting_price"] ?><b class="rub">р</b></span>
                                     </div>
                                     <div class="lot__timer timer
-                                    <?php if(strpos((dateEndOfLot($lot["date_end"])),"00:") === 0): ?>
+                                    <?php if (strpos((dateEndOfLot($lot["date_end"])), "00:") === 0): ?>
                                     timer--finishing
                                     <?php endif; ?>">
                                         <?= dateEndOfLot($lot["date_end"]); ?>

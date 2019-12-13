@@ -1,0 +1,9 @@
+{
+    "name": "kmk/yeticave",
+    "description": "website for auctions",
+    "type": "project",
+    "require": {
+        "swiftmailer/swiftmailer": "^6.2",
+      "ext-mysqli": "*"
+    }
+}

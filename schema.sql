@@ -15,6 +15,7 @@ CREATE TABLE lots
     id             INT AUTO_INCREMENT PRIMARY KEY,
     id_category    INT,
     id_author      INT,
+    id_winner      INT,
     date_created   DATE,
     name           VARCHAR(128) NOT NULL,
     description    TEXT,

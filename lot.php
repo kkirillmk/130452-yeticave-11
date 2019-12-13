@@ -1,6 +1,7 @@
 <?php
 require_once "helpers.php";
 require_once "init.php";
+require_once "vendor/autoload.php";
 
 $id_lot = filter_input(INPUT_GET, 'id');
 if (!$id_lot) {

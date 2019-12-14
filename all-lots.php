@@ -9,7 +9,8 @@ $category_name = $_GET["category_name"] ?? "";
 
 $sql = "SELECT lots.`id`, lots.`name`, `starting_price`, `img`,
                MAX(bets.`bet_sum`) AS `current_price`,
-               cats.`name`  AS `category`, `date_end` 
+               cats.`name`  AS `category`, `date_end`,
+               COUNT(`id_lot`) AS bets_count
         FROM lots
             LEFT JOIN `bets` 
                 ON bets.`id_lot` = lots.`id`

@@ -8,7 +8,8 @@ $cats = getCategories($sql_connect);
 $lots = [];
 $search = $_GET["search"] ?? "";
 
-if ($search) {
+if (isset($search)) {
+    trim($search);
     $sql = "SELECT lots.`id`, MATCH(lots.`name`, lots.`description`) AGAINST(?) AS relev, `img`, 
             cats.`name` AS category_name, lots.`name`, `starting_price`, 
             MAX(bets.`bet_sum`) AS current_price, `date_end`,

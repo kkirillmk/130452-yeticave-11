@@ -11,8 +11,13 @@ if (!$id_lot) {
 
 $lots = [];
 $cats = [];
-$sql = "SELECT lots.`id`, lots.`name`, `starting_price`, `img`, MAX(bets.`bet_sum`) AS `current_price`,
-        cats.`name`  AS `category`, `date_end`, `description`, `bet_step` FROM lots
+$sql = "SELECT  lots.`id`, lots.`name`, 
+                `starting_price`, `img`, 
+                MAX(bets.`bet_sum`) AS `current_price`,
+                cats.`name`  AS `category`, 
+                `date_end`, `description`, `bet_step`,
+                id_author
+        FROM lots
         LEFT JOIN `bets` ON bets.`id_lot` = lots.`id`
         JOIN `categories` cats ON cats.`id` = lots.`id_category`
         WHERE lots.id = $id_lot";
@@ -39,6 +44,17 @@ if ($lots[0]["current_price"]) {
 } else {
     $lot_price = $lots[0]["starting_price"];
 }
+
+$last_bet = [];
+$sql = "SELECT users.name, bet_sum,
+               date_placing, id_user
+            FROM bets
+                JOIN users
+                    ON users.id = bets.id_user
+            WHERE id_lot = '$id_lot'
+            ORDER BY bets.id DESC";
+$bets = sqlToArray($sql_connect, $sql);
+$last_bet = $bets ? array_slice($bets, 0, 1) : [0];
 
 $min_bet = $bet_step + $lot_price;
 $form = [];
@@ -72,7 +88,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "lots" => $lots,
             "errors" => $errors,
             "cats" => $cats,
-            "min_bet" => $min_bet
+            "min_bet" => $min_bet,
+            "bets" => $bets,
+            "last_bet" => $last_bet
         ]);
     } else {
 
@@ -86,7 +104,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $main_content = include_template("lot.php", [
             "cats" => $cats,
             "lots" => $lots,
-            "min_bet" => $min_bet
+            "min_bet" => $min_bet,
+            "bets" => $bets,
+            "last_bet" => $last_bet
         ]);
         header("Location: /lot.php?id=$id_lot");
     }
@@ -94,7 +114,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $main_content = include_template("lot.php", [
         "cats" => $cats,
         "lots" => $lots,
-        "min_bet" => $min_bet
+        "min_bet" => $min_bet,
+        "bets" => $bets,
+        "last_bet" => $last_bet
     ]);
 }
 

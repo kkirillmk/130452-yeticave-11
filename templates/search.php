@@ -2,7 +2,8 @@
     <ul class="nav__list container">
         <?php foreach ($cats as $value): ?>
             <li class="nav__item">
-                <a href="../pages/all-lots.html"><?= $value["name"]; ?></a>
+                <a class="promo__link"
+                   href="../all-lots.php?category_name=<?= $value["name"]; ?>"><?= $value["name"]; ?></a>
             </li>
         <?php endforeach; ?>
     </ul>

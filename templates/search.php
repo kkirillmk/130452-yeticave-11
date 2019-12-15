@@ -47,6 +47,24 @@
                 <?php endforeach; ?>
             </ul>
         </section>
+        <?php if ($pages_count > 1): ?>
+            <ul class="pagination-list">
+                <li class="pagination-item pagination-item-prev">
+                    <a href="/search.php?search=<?= $_GET["search"] ?>
+                        &page=<?= numberOfPreviousPage($cur_page); ?>">Назад</a>
+                </li>
+                <?php foreach ($pages as $page): ?>
+                    <li class="pagination-item <?php if ($page == $cur_page): ?>pagination-item-active<?php endif; ?>">
+                        <a href="/search.php?search=<?= $_GET["search"] ?>
+                                &page=<?= $page; ?>"><?= $page; ?></a>
+                    </li>
+                <?php endforeach; ?>
+                <li class="pagination-item pagination-item-next">
+                    <a href="/search.php?search=<?= $_GET["search"] ?>
+                        &page=<?= numberOfNextPage($cur_page, $pages_count); ?>">Вперед</a>
+                </li>
+            </ul>
+        <?php endif; ?>
     <?php else: ?>
         <h2>Ничего не найдено по вашему запросу</h2>
     <?php endif; ?>

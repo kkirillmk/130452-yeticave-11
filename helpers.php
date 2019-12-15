@@ -304,10 +304,19 @@ function databaseInsertData($link, $sql, $data = []) {
     return $result;
 }
 
-function checkOnWin($bet_id, $win_bet_ids) {
-    foreach ($win_bet_ids as $value) {
-        foreach ($value as $win_id) {
-
-        }
+function numberOfPreviousPage($cur_page) {
+    $check_on_page = $cur_page - 1;
+    if ($check_on_page != 0) {
+        return $cur_page -= 1;
     }
+
+    return $cur_page;
+}
+
+function numberOfNextPage($cur_page, $pages_count) {
+    if ($cur_page == $pages_count) {
+        return $cur_page;
+    }
+
+    return $cur_page + 1;
 }

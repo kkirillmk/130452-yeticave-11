@@ -8,7 +8,7 @@ if (($_SESSION)) {
     exit();
 }
 
-$cats = getCategories($sql_connect);
+$categories = getCategories($sql_connect);
 
 $form = [];
 $fields = [];
@@ -61,9 +61,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$main_content = include_template("sign-up.php", ["cats" => $cats, "errors" => $errors, "form" => $form]);
+$main_content = include_template("sign-up.php", ["categories" => $categories, "errors" => $errors, "form" => $form]);
 echo include_template("layout.php", [
     "main_content" => $main_content,
-    "title" => "Главная",
-    "cats" => $cats
+    "title" => "Регистрация",
+    "categories" => $categories
 ]);

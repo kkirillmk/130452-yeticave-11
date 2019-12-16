@@ -8,8 +8,8 @@ if (empty($_SESSION)) {
     exit();
 }
 
-$cats = getCategories($sql_connect);
-$cats_ids = array_column($cats, 'id');
+$categories = getCategories($sql_connect);
+$categories_ids = array_column($categories, 'id');
 
 $lot = [];
 $errors = [];
@@ -26,8 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     ], true);
 
     $rules = [
-        "category" => function ($value) use ($cats_ids) {
-            return validateCategory($value, $cats_ids);
+        "category" => function ($value) use ($categories_ids) {
+            return validateCategory($value, $categories_ids);
         },
         "lot-rate" => function ($value) {
             return validateGreaterThanZero($value);
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $main_content = include_template("add.php", [
                                         "lot" => $lot,
                                         "errors" => $errors,
-                                        "cats" => $cats
+                                        "categories" => $categories
         ]);
     } else {
         $sql = "INSERT INTO `lots` (`date_created`, `id_author`, `name`, `id_category`, `description`, `starting_price`,
@@ -79,11 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 } else {
-    $main_content = include_template("add.php", ["cats" => $cats]);
+    $main_content = include_template("add.php", ["categories" => $categories]);
 }
 
 echo include_template("layout.php", [
     "main_content" => $main_content,
-    "title" => "Главная",
-    "cats" => $cats
+    "title" => "Добавление лота",
+    "categories" => $categories
 ]);

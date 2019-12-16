@@ -3,7 +3,7 @@ require_once "helpers.php";
 require_once "init.php";
 require_once "vendor/autoload.php";
 
-$cats = getCategories($sql_connect);
+$categories = getCategories($sql_connect);
 
 $lots = [];
 
@@ -48,18 +48,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
     $main_content = include_template("search.php", [
-        "cats" => $cats,
+        "categories" => $categories,
         "lots" => $lots,
         "pages_count" => $pages_count,
         "pages" => $pages,
         "cur_page" => $cur_page
     ]);
 } else {
-    $main_content = include_template("search.php", ["cats" => $cats]);
+    $main_content = include_template("search.php", ["categories" => $categories]);
 }
 
 echo include_template("layout.php", [
     "main_content" => $main_content,
-    "title" => "Главная",
-    "cats" => $cats
+    "title" => "Поиск",
+    "categories" => $categories
 ]);

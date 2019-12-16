@@ -3,7 +3,7 @@ require_once "helpers.php";
 require_once "init.php";
 require_once "vendor/autoload.php";
 
-$cats = getCategories($sql_connect);
+$categories = getCategories($sql_connect);
 
 $category_name = $_GET["category_name"] ?? "";
 $cur_page = $_GET['page'] ?? 1;
@@ -36,7 +36,7 @@ $sql = "SELECT lots.`id`, lots.`name`, `starting_price`, `img`,
 $lots = sqlToArray($sql_connect, $sql);
 
 $main_content = include_template("all-lots.php", [
-    "cats" => $cats,
+    "categories" => $categories,
     "lots" => $lots,
     "pages_count" => $pages_count,
     "pages" => $pages,
@@ -44,6 +44,6 @@ $main_content = include_template("all-lots.php", [
 ]);
 echo include_template("layout.php", [
     "main_content" => $main_content,
-    "title" => "Главная",
-    "cats" => $cats
+    "title" => $category_name,
+    "categories" => $categories
 ]);

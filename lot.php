@@ -10,7 +10,7 @@ if (!$id_lot) {
 }
 
 $lots = [];
-$cats = [];
+$categories = [];
 $sql = "SELECT  lots.`id`, lots.`name`, 
                 `starting_price`, `img`, 
                 MAX(bets.`bet_sum`) AS `current_price`,
@@ -22,7 +22,7 @@ $sql = "SELECT  lots.`id`, lots.`name`,
         JOIN `categories` cats ON cats.`id` = lots.`id_category`
         WHERE lots.id = $id_lot";
 $lots = sqlToArray($sql_connect, $sql);
-$cats = getCategories($sql_connect);
+$categories = getCategories($sql_connect);
 
 $lots_id_list = [];
 foreach ($lots as $lot) {
@@ -65,18 +65,17 @@ $price = 0;
 if ($_SERVER["REQUEST_METHOD"] === "POST"
     && $last_bet[0]["id_user"] !== $id_user
     && $lots[0]["id_author"] !== $_SESSION["user"]["id"]
-    && strtotime($lots[0]["date_end"]) > time()) {
+    && strtotime($lots[0]["date_end"]) > time()
+    && $_SESSION) {
 
     $form = filter_input_array(INPUT_POST, [
         "cost" => FILTER_DEFAULT
     ], true);
-
     $rule = [
         "cost" => function ($value) {
             return validateIntGreaterThanZero($value);
         }
     ];
-
     if (isset($rule["cost"])) {
         $rule = $rule["cost"];
         $errors["cost"] = $rule($form["cost"]);
@@ -91,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"
         $main_content = include_template("lot.php", [
             "lots" => $lots,
             "errors" => $errors,
-            "cats" => $cats,
+            "categories" => $categories,
             "min_bet" => $min_bet,
             "bets" => $bets,
             "last_bet" => $last_bet
@@ -106,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"
         }
 
         $main_content = include_template("lot.php", [
-            "cats" => $cats,
+            "categories" => $categories,
             "lots" => $lots,
             "min_bet" => $min_bet,
             "bets" => $bets,
@@ -116,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"
     }
 } else {
     $main_content = include_template("lot.php", [
-        "cats" => $cats,
+        "categories" => $categories,
         "lots" => $lots,
         "min_bet" => $min_bet,
         "bets" => $bets,
@@ -126,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"
 
 echo include_template("layout.php", [
     "main_content" => $main_content,
-    "title" => "Главная",
-    "cats" => $cats
+    "title" => $lots[0]["name"],
+    "categories" => $categories
 ]);
 

@@ -3,7 +3,7 @@ require_once "helpers.php";
 require_once "init.php";
 require_once "vendor/autoload.php";
 
-$cats = getCategories($sql_connect);
+$categories = getCategories($sql_connect);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $form = $_POST;
@@ -38,10 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    $main_content = include_template("login.php", ["cats" => $cats, "form" => $form, "errors" => $errors]);
+    $main_content = include_template("login.php", ["categories" => $categories, "form" => $form, "errors" => $errors]);
 
 } else {
-    $main_content = include_template("login.php", ["cats" => $cats]);
+    $main_content = include_template("login.php", ["categories" => $categories]);
 
     if (isset($_SESSION["user"])) {
         header("Location: /");
@@ -51,6 +51,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 echo include_template("layout.php", [
     "main_content" => $main_content,
-    "title" => "Главная",
-    "cats" => $cats
+    "title" => "Вход",
+    "categories" => $categories
 ]);

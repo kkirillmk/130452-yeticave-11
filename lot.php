@@ -60,9 +60,9 @@ $min_bet = $bet_step + $lot_price;
 $form = [];
 $rule = [];
 $errors = [];
-$id_author = $_SESSION["user"]["id"] ?? "";
+$id_user = $_SESSION["user"]["id"] ?? "";
 $price = 0;
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST" && $last_bet[0]["id_user"] !== $id_user) {
     $form = filter_input_array(INPUT_POST, [
         "cost" => FILTER_DEFAULT
     ], true);
@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
 
         $sql = "INSERT INTO `bets` (date_placing, id_user, id_lot, bet_sum)
-                VALUES (NOW(), '$id_author', '$id_lot', ?)";
+                VALUES (NOW(), '$id_user', '$id_lot', ?)";
         if (!databaseInsertData($sql_connect, $sql, $form)) {
             echo "Данные не добавлены";
             exit();

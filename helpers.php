@@ -208,7 +208,7 @@ function sqlToArrayAssoc($sql_connect, $sql) {
 function validateGreaterThanZero($value) {
     if (!is_numeric($value)){
         return "Введенное значение не является числом или равно нулю";
-    } elseif ($value < 0) {
+    } elseif ($value <= 0) {
         return "Введенное значение меньше нуля";
     }
 

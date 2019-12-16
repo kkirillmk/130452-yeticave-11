@@ -4,6 +4,7 @@
     "type": "project",
     "require": {
         "swiftmailer/swiftmailer": "^6.2",
-      "ext-mysqli": "*"
+      "ext-mysqli": "*",
+      "ext-fileinfo": "*"
     }
 }

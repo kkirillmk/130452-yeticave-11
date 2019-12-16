@@ -19,7 +19,6 @@ $sql = "SELECT lots.id AS id_lot,
              WHERE lots.`date_end` <= NOW() AND lots.id_winner IS NULL";
 $win_bets = sqlToArray($sql_connect, $sql);
 
-
 $id_user = $_SESSION["user"]["id"] ?? "";
 
 foreach ($win_bets as $win_bet) {

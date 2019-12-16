@@ -9,7 +9,7 @@ $lots = [];
 $search = $_GET["search"] ?? "";
 
 
-if (isset($search)) {
+if (!empty($search)) {
     $cur_page = $_GET['page'] ?? 1;
     $page_items = 9;
 

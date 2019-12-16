@@ -62,7 +62,11 @@ $rule = [];
 $errors = [];
 $id_user = $_SESSION["user"]["id"] ?? "";
 $price = 0;
-if ($_SERVER["REQUEST_METHOD"] === "POST" && $last_bet[0]["id_user"] !== $id_user) {
+if ($_SERVER["REQUEST_METHOD"] === "POST"
+    && $last_bet[0]["id_user"] !== $id_user
+    && $lots[0]["id_author"] !== $_SESSION["user"]["id"]
+    && strtotime($lots[0]["date_end"]) > time()) {
+
     $form = filter_input_array(INPUT_POST, [
         "cost" => FILTER_DEFAULT
     ], true);

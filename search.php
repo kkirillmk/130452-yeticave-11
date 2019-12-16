@@ -6,9 +6,9 @@ require_once "vendor/autoload.php";
 $cats = getCategories($sql_connect);
 
 $lots = [];
-$search = trim($search = $_GET["search"] ?? "");
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $search = trim($search = $_GET["search"]);
     $cur_page = $_GET['page'] ?? 1;
     $page_items = 9;
 
@@ -28,8 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $pages = range(1, $pages_count);
 
 
-    $sql = "SELECT lots.`id`, MATCH(lots.`name`, lots.`description`) AGAINST(?) AS relev,
-                   `img`, cats.`name` AS category_name,
+    $sql = "SELECT lots.`id`, `img`, cats.`name` AS category_name,
                     lots.`name`, `starting_price`, 
                     MAX(bets.`bet_sum`) AS current_price,
                     `date_end`, COUNT(`id_lot`) AS bets_count 
@@ -41,9 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             WHERE MATCH(lots.`name`, lots.`description`) AGAINST(?)
                 AND `lots`.`date_end` > NOW()
             GROUP BY `lots`.`id` 
-            ORDER BY relev DESC LIMIT ? OFFSET ?";
+            ORDER BY lots.id DESC LIMIT ? OFFSET ?";
 
-    $stmt = db_get_prepare_stmt($sql_connect, $sql, [$search, $search, $page_items, $offset]);
+    $stmt = db_get_prepare_stmt($sql_connect, $sql, [$search, $page_items, $offset]);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);

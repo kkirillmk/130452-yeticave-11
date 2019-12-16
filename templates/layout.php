@@ -20,11 +20,17 @@
                 <input type="search" name="search" placeholder="Поиск лота">
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
-            <?php if (!empty($_SESSION)): ?>
+            <?php if ($_SESSION): ?>
                 <a class="main-header__add-lot button" href="../add.php">Добавить лот</a>
             <?php endif; ?>
             <nav class="user-menu">
-                <?php if (empty($_SESSION)): ?>
+                <?php if ($_SESSION): ?>
+                    <div class="user-menu__logged">
+                        <p><?= $_SESSION["user"]["name"] ?></p>
+                        <a class="user-menu__bets" href="../my-bets.php">Мои ставки</a>
+                        <a class="user-menu__logout" href="../logout.php">Выход</a>
+                    </div>
+                <?php else: ?>
                     <ul class="user-menu__list">
                         <li class="user-menu__item">
                             <a href="sign-up.php">Регистрация</a>
@@ -33,12 +39,6 @@
                             <a href="login.php">Вход</a>
                         </li>
                     </ul>
-                <?php else: ?>
-                    <div class="user-menu__logged">
-                        <p><?= $_SESSION["user"]["name"] ?></p>
-                        <a class="user-menu__bets" href="../my-bets.php">Мои ставки</a>
-                        <a class="user-menu__logout" href="../logout.php">Выход</a>
-                    </div>
                 <?php endif; ?>
             </nav>
         </div>
@@ -103,7 +103,9 @@
                 </svg>
             </a>
         </div>
-        <a class="main-footer__add-lot button" href="../add.php"">Добавить лот</a>
+        <?php if ($_SESSION): ?>
+            <a class="main-footer__add-lot button" href="../add.php"">Добавить лот</a>
+        <?php endif; ?>
         <div class="main-footer__developed-by">
             <span class="visually-hidden">Разработано:</span>
             <a class="logo-academy" href="https://htmlacademy.ru/intensive/php">

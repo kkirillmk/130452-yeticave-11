@@ -10,6 +10,13 @@
 </nav>
 <?php $classname = empty($errors) ? "" : "form--invalid"; ?>
 <form class="form container <?= $classname; ?>" action="login.php" method="post">
+    <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
+    <ul>
+        <?php if (!empty($errors)):
+            foreach ($errors as $val): ?>
+                <li><strong><?= $val; ?></strong></li>
+            <?php endforeach; endif; ?>
+    </ul>
     <h2>Вход</h2>
     <?php $classname = isset($errors["email"]) ? "form__item--invalid" : ""; ?>
     <div class="form__item <?= $classname; ?>">
@@ -24,12 +31,5 @@
                placeholder="Введите пароль" value="<?= getPostVal("password") ?>">
         <span class="form__error">Введите пароль</span>
     </div>
-    <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
-    <ul>
-        <?php if (!empty($errors)):
-            foreach ($errors as $val): ?>
-                <li><strong><?= $val; ?></strong></li>
-            <?php endforeach; endif; ?>
-    </ul>
     <button type="submit" class="button">Войти</button>
 </form>

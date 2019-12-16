@@ -6,10 +6,9 @@ require_once "vendor/autoload.php";
 $cats = getCategories($sql_connect);
 
 $lots = [];
-$search = $_GET["search"] ?? "";
+$search = trim($search = $_GET["search"] ?? "");
 
-
-if (!empty($search)) {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $cur_page = $_GET['page'] ?? 1;
     $page_items = 9;
 
@@ -28,7 +27,7 @@ if (!empty($search)) {
     $offset = ($cur_page - 1) * $page_items;
     $pages = range(1, $pages_count);
 
-    trim($search);
+
     $sql = "SELECT lots.`id`, MATCH(lots.`name`, lots.`description`) AGAINST(?) AS relev,
                    `img`, cats.`name` AS category_name,
                     lots.`name`, `starting_price`, 
@@ -42,7 +41,7 @@ if (!empty($search)) {
             WHERE MATCH(lots.`name`, lots.`description`) AGAINST(?)
                 AND `lots`.`date_end` > NOW()
             GROUP BY `lots`.`id` 
-            ORDER BY `lots`.`id` DESC LIMIT ? OFFSET ?";
+            ORDER BY relev DESC LIMIT ? OFFSET ?";
 
     $stmt = db_get_prepare_stmt($sql_connect, $sql, [$search, $search, $page_items, $offset]);
     mysqli_stmt_execute($stmt);

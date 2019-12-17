@@ -11,8 +11,6 @@ if (empty($_SESSION)) {
 $categories = getCategories($sql_connect);
 $categories_ids = array_column($categories, 'id');
 
-$lot = [];
-$errors = [];
 $id_author = $_SESSION["user"]["id"];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -53,13 +51,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $errors = array_filter($errors);
 
     $value_of_save = saveImage($lot, "lot-img", $errors);
+
     if (strpos($value_of_save, "uploads") === 0) {
         $lot["path"] = $value_of_save;
     } else {
         $errors["lot-img"] = $value_of_save;
     }
 
-    if (count($errors) !== 0) {
+    if (!empty($errors)) {
         $main_content = include_template("add.php", [
                                         "lot" => $lot,
                                         "errors" => $errors,

@@ -23,12 +23,9 @@ function is_date_valid(string $date) : bool {
 
 function dateEndOfLot($end_date) {
     date_default_timezone_set("Asia/Novosibirsk");
-    $cur_ts_time = time();
-    $hours = 0;
-    $minutes = 0;
-    $ts_remain = 0;
 
     if (is_date_valid($end_date)) {
+        $cur_ts_time = time();
         $end_date = strtotime($end_date);
         $ts_remain = $end_date - $cur_ts_time;
         $hours = floor($ts_remain / 3600);
@@ -167,45 +164,51 @@ function include_template($name, array $data = []) {
 
 function priceFormat($price) {
     $price = ceil($price);
-    $result = "";
 
     if ($price < 1000) {
         return $price;
-    } else {
-        $result = number_format($price, 0, '.',' ');
     }
+
+    $result = number_format($price, 0, '.',' ');
     return $result . " ₽";
 }
 
 function connectDB($host, $user, $password, $database) {
     $sql_connect = mysqli_connect($host, $user, $password, $database);
     mysqli_set_charset($sql_connect, "utf-8");
+
     if (!$sql_connect) {
         echo ("Ошибка подключения: " . mysqli_connect_error());
         exit;
     }
+
     return $sql_connect;
 }
 
 function sqlToArray($sql_connect, $sql) {
     $result = mysqli_query($sql_connect, $sql);
+
     if (!$result) {
         echo ("Ошибка запроса: " . mysqli_error($sql_connect));
         exit;
     }
+
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
 function sqlToArrayAssoc($sql_connect, $sql) {
     $result = mysqli_query($sql_connect, $sql);
+
     if (!$result) {
         echo ("Ошибка запроса: " . mysqli_error($sql_connect));
         exit;
     }
+
     return mysqli_fetch_assoc($result);
 }
 
 function validateGreaterThanZero($value) {
+
     if (!is_numeric($value)){
         return "Введенное значение не является числом или равно нулю";
     } elseif ($value <= 0) {
@@ -239,16 +242,13 @@ function validateIntGreaterThanZero($value) {
     return null;
 }
 
-function saveFormat($tmp_name, string $format) {
-    $file_name = uniqid() . $format;
-    move_uploaded_file($tmp_name, 'uploads/' . $file_name);
-    return $file_name;
-}
-
 function validateCategory($id, $allowed_list) {
+
     if (!in_array($id, $allowed_list)) {
         return "Указана несуществующая категория";
     }
+
+    return null;
 }
 
 function getPostVal($name) {
@@ -260,11 +260,17 @@ function getCategories($sql_connect) {
     return sqlToArray($sql_connect, $sql);
 }
 
+function saveFormat($tmp_name, string $format) {
+    $file_name = uniqid() . $format;
+    move_uploaded_file($tmp_name, 'uploads/' . $file_name);
+    return $file_name;
+}
+
 function saveImage($post, string $name_image, $errors, $path = "path") {
+
     if (!empty($_FILES[$name_image]["name"])) {
         $tmp_name = $_FILES[$name_image]["tmp_name"];
         $file_type = mime_content_type($tmp_name);
-        $file_name = "";
 
         switch ($file_type) {
             case "image/jpeg":
@@ -298,14 +304,17 @@ function countingFromTheDateInHours($date_of_reference) {
 function databaseInsertData($link, $sql, $data = []) {
     $stmt = db_get_prepare_stmt($link, $sql, $data);
     $result = mysqli_stmt_execute($stmt);
+
     if ($result) {
         $result = mysqli_insert_id($link);
     }
+
     return $result;
 }
 
 function numberOfPreviousPage($cur_page) {
     $check_on_page = $cur_page - 1;
+
     if ($check_on_page != 0) {
         return $cur_page -= 1;
     }
@@ -314,6 +323,7 @@ function numberOfPreviousPage($cur_page) {
 }
 
 function numberOfNextPage($cur_page, $pages_count) {
+
     if ($cur_page == $pages_count) {
         return $cur_page;
     }

@@ -5,7 +5,7 @@ require_once "vendor/autoload.php";
 
 $categories = getCategories($sql_connect);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $form = filter_input_array(INPUT_POST, [
         "email" => FILTER_VALIDATE_EMAIL,
         "password" => FILTER_DEFAULT

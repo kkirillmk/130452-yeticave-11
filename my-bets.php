@@ -11,9 +11,9 @@ if (empty($_SESSION)) {
 $id_user = $_SESSION["user"]["id"];
 
 $categories = getCategories($sql_connect);
-$sql = "SELECT `date_placing`, `bet_sum`, lots.name AS lot_name,
-                lots.img, lots.date_end, cats.name AS category,
-                bets.id_lot, users.contacts, `bets`.`id`
+$sql = "SELECT `date_placing`, `bet_sum`, `lots`.`name` AS lot_name,
+                `lots`.`img`, `lots`.`date_end`, cats.`name` AS category,
+                `bets`.`id_lot`, `users`.`contacts`, `bets`.`id`
         FROM `bets`
             JOIN `lots` 
                 ON `lots`.`id` = `bets`.`id_lot`

@@ -13,7 +13,7 @@ $categories = getCategories($sql_connect);
 $form = [];
 $errors = [];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $fields = ["email", "password", "name", "message"];
     $form = filter_input_array(INPUT_POST, [
         "email" => FILTER_VALIDATE_EMAIL,

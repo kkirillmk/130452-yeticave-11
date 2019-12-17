@@ -4,9 +4,6 @@ require_once "init.php";
 require_once "vendor/autoload.php";
 require_once "getwinner.php";
 
-$lots = [];
-$categories = [];
-
 $sql = "SELECT `lots`.`id`, `lots`.`name`, `starting_price`, `img`,
                MAX(`bets`.`bet_sum`) AS current_price,
                cats.`name`  AS category, `date_end` 

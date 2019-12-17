@@ -6,7 +6,11 @@ require_once "vendor/autoload.php";
 $categories = getCategories($sql_connect);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $form = $_POST;
+    $form = filter_input_array(INPUT_POST, [
+        "email" => FILTER_VALIDATE_EMAIL,
+        "password" => FILTER_DEFAULT
+    ], true
+    );
     $fields = ["email", "password"];
     $errors = [];
 
@@ -15,6 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $errors[$value] = "Поле $value надо заполнить";
         }
     }
+    if ($form["email"] === false) {
+        $errors[] = "Введён некорректный email";
+    }
 
     $email = mysqli_real_escape_string($sql_connect, $form["email"]);
     $sql = getUserByEmail($email);
@@ -22,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
 
-    if ($user) {
+    if (isset($user)) {
         if (password_verify($form["password"], $user["password"])) {
             $_SESSION["user"] = $user;
         } else {
@@ -30,16 +37,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         $errors["email"] = "Такой пользователь не найден";
-        $errors["password"] = "Неверный пароль";
     }
 
-    if (count($errors) === 0) {
+    if (empty($errors)) {
         header("Location: /");
         exit();
     }
 
-    $main_content = include_template("login.php", ["categories" => $categories, "form" => $form, "errors" => $errors]);
-
+    $main_content = include_template("login.php", [
+        "categories" => $categories,
+        "form" => $form,
+        "errors" => $errors
+    ]);
 } else {
     $main_content = include_template("login.php", ["categories" => $categories]);
 

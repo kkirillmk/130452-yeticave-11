@@ -3,14 +3,12 @@ require_once "helpers.php";
 require_once "init.php";
 require_once "vendor/autoload.php";
 
-$id_lot = filter_input(INPUT_GET, 'id');
-if (!$id_lot) {
+$id_lot = shieldedDataEntry($sql_connect, $_GET["id"]);
+if (empty($id_lot)) {
     echo "Ошибка получения параметра запроса";
     exit;
 }
 
-$lots = [];
-$categories = [];
 $sql = "SELECT  lots.`id`, lots.`name`, 
                 `starting_price`, `img`, 
                 MAX(bets.`bet_sum`) AS `current_price`,
@@ -20,7 +18,7 @@ $sql = "SELECT  lots.`id`, lots.`name`,
         FROM lots
         LEFT JOIN `bets` ON bets.`id_lot` = lots.`id`
         JOIN `categories` cats ON cats.`id` = lots.`id_category`
-        WHERE lots.id = $id_lot";
+        WHERE lots.id = '$id_lot'";
 $lots = sqlToArray($sql_connect, $sql);
 $categories = getCategories($sql_connect);
 
@@ -45,7 +43,6 @@ if ($lots[0]["current_price"]) {
     $lot_price = $lots[0]["starting_price"];
 }
 
-$last_bet = [];
 $sql = "SELECT users.name, bet_sum,
                date_placing, id_user
             FROM bets
@@ -57,11 +54,7 @@ $bets = sqlToArray($sql_connect, $sql);
 $last_bet = $bets ? array_slice($bets, 0, 1) : [0];
 
 $min_bet = $bet_step + $lot_price;
-$form = [];
-$rule = [];
-$errors = [];
 $id_user = $_SESSION["user"]["id"] ?? "";
-$price = 0;
 if ($_SERVER["REQUEST_METHOD"] === "POST"
     && $last_bet[0]["id_user"] !== $id_user
     && $lots[0]["id_author"] !== $_SESSION["user"]["id"]
@@ -80,7 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"
         $rule = $rule["cost"];
         $errors["cost"] = $rule($form["cost"]);
     }
-
     if ($form["cost"] < $min_bet) {
         $errors[] = "Введенная ставка меньше минимальной";
     }
@@ -99,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"
 
         $sql = "INSERT INTO `bets` (date_placing, id_user, id_lot, bet_sum)
                 VALUES (NOW(), '$id_user', '$id_lot', ?)";
-        if (!databaseInsertData($sql_connect, $sql, $form)) {
+        if (!dbInsertData($sql_connect, $sql, $form)) {
             echo "Данные не добавлены";
             exit();
         }

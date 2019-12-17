@@ -51,7 +51,7 @@
                     <?php if ($_SESSION && $lots[0]["id_author"] !== $_SESSION["user"]["id"]
                                         && $last_bet[0]["id_user"] !== $_SESSION["user"]["id"]): ?>
                         <?php $classname = empty($errors) ? "" : "form--invalid"; ?>
-                        <form class="lot-item__form <?= $classname; ?>" action="../lot.php?id=<?= $_GET["id"]; ?>"
+                        <form class="lot-item__form <?= $classname; ?>" action="../lot.php?id=<?= htmlspecialchars($_GET["id"]); ?>"
                               method="post" autocomplete="off">
                             <?php $classname = !empty($errors) ? "form__item--invalid" : ""; ?>
                             <p class="lot-item__form-item form__item <?= $classname ?>">

@@ -9,9 +9,9 @@
     </ul>
 </nav>
 <div class="container">
-    <?php if ($_GET["search"]): ?>
+    <?php if (!empty($_GET["search"])): ?>
         <section class="lots">
-            <h2>«Результаты поиска по запросу <span><?= $_GET["search"] ?></span>»</h2>
+            <h2>«Результаты поиска по запросу <span>"<?= htmlspecialchars($_GET["search"]) ?>"</span>»</h2>
             <ul class="lots__list">
                 <?php foreach ($lots as $lot): ?>
                         <li class="lots__item lot">
@@ -50,17 +50,17 @@
         <?php if ($pages_count > 1): ?>
             <ul class="pagination-list">
                 <li class="pagination-item pagination-item-prev">
-                    <a href="/search.php?search=<?= $_GET["search"] ?>
+                    <a href="/search.php?search=<?= htmlspecialchars($_GET["search"]); ?>
                         &page=<?= numberOfPreviousPage($cur_page); ?>">Назад</a>
                 </li>
                 <?php foreach ($pages as $page): ?>
                     <li class="pagination-item <?php if ($page == $cur_page): ?>pagination-item-active<?php endif; ?>">
-                        <a href="/search.php?search=<?= $_GET["search"] ?>
+                        <a href="/search.php?search=<?= htmlspecialchars($_GET["search"]); ?>
                                 &page=<?= $page; ?>"><?= $page; ?></a>
                     </li>
                 <?php endforeach; ?>
                 <li class="pagination-item pagination-item-next">
-                    <a href="/search.php?search=<?= $_GET["search"] ?>
+                    <a href="/search.php?search=<?= htmlspecialchars($_GET["search"]); ?>
                         &page=<?= numberOfNextPage($cur_page, $pages_count); ?>">Вперед</a>
                 </li>
             </ul>

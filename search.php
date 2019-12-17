@@ -5,10 +5,9 @@ require_once "vendor/autoload.php";
 
 $categories = getCategories($sql_connect);
 
-$lots = [];
-
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $search = trim($search = $_GET["search"]);
+    $search = shieldedDataEntry($sql_connect, $_GET["search"]);
+    $search = trim($search);
     $cur_page = $_GET['page'] ?? 1;
     $page_items = 9;
 
@@ -27,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $offset = ($cur_page - 1) * $page_items;
     $pages = range(1, $pages_count);
 
-
     $sql = "SELECT lots.`id`, `img`, cats.`name` AS category_name,
                     lots.`name`, `starting_price`, 
                     MAX(bets.`bet_sum`) AS current_price,
@@ -41,11 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 AND `lots`.`date_end` > NOW()
             GROUP BY `lots`.`id` 
             ORDER BY lots.id DESC LIMIT ? OFFSET ?";
-
-    $stmt = db_get_prepare_stmt($sql_connect, $sql, [$search, $page_items, $offset]);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $lots = dbFetchData($sql_connect, $sql, [$search, $page_items, $offset]);
 
     $main_content = include_template("search.php", [
         "categories" => $categories,

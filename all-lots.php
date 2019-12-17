@@ -5,8 +5,9 @@ require_once "vendor/autoload.php";
 
 $categories = getCategories($sql_connect);
 
-$category_name = $_GET["category_name"] ?? "";
-$cur_page = $_GET['page'] ?? 1;
+$category_name = shieldedDataEntry($sql_connect, $_GET["category_name"]);
+$cur_page = $_GET["page"] ?? 1;
+$cur_page = mysqli_real_escape_string($sql_connect, $cur_page);
 $page_items = 9;
 
 $sql = "SELECT COUNT(lots.id) as cnt 

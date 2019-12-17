@@ -3,7 +3,7 @@ require_once "helpers.php";
 require_once "init.php";
 require_once "vendor/autoload.php";
 
-if (($_SESSION)) {
+if (!empty($_SESSION)) {
     http_response_code(403);
     exit();
 }
@@ -11,7 +11,6 @@ if (($_SESSION)) {
 $categories = getCategories($sql_connect);
 
 $form = [];
-$fields = [];
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -45,13 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $sql = "INSERT INTO `users` (`date_registration`, `email`, `password`, `name`, `contacts`)
             VALUES (NOW(), ?, ?, ?, ?)";
-            $stmt = db_get_prepare_stmt($sql_connect, $sql, [
-                $form["email"],
-                $password,
-                $form["name"],
-                $form["message"]
-            ]);
-            $res = mysqli_stmt_execute($stmt);
+            $res = dbInsertData($sql_connect, $sql, [$form["email"], $password, $form["name"], $form["message"]]);
         }
 
         if ($res && empty($errors)) {

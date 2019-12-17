@@ -10,7 +10,7 @@
 </nav>
 <div class="container">
     <section class="lots">
-        <h2>«Все лоты в категории <span><?= $_GET["category_name"]; ?>»</span></h2>
+        <h2>«Все лоты в категории <span><?= htmlspecialchars($_GET["category_name"]); ?>»</span></h2>
         <ul class="lots__list">
             <?php foreach ($lots as $lot): ?>
                 <li class="lots__item lot">
@@ -46,17 +46,17 @@
     <?php if ($pages_count > 1): ?>
         <ul class="pagination-list">
             <li class="pagination-item pagination-item-prev">
-                <a href="/all-lots.php?category_name=<?= $_GET["category_name"]; ?>
+                <a href="/all-lots.php?category_name=<?= htmlspecialchars($_GET["category_name"]); ?>
                         &page=<?= numberOfPreviousPage($cur_page); ?>">Назад</a>
             </li>
             <?php foreach ($pages as $page): ?>
                 <li class="pagination-item <?php if ($page == $cur_page): ?>pagination-item-active<?php endif; ?>">
-                    <a href="/all-lots.php?category_name=<?= $_GET["category_name"]; ?>&page=<?= $page; ?>">
+                    <a href="/all-lots.php?category_name=<?= htmlspecialchars($_GET["category_name"]); ?>&page=<?= $page; ?>">
                             <?= $page; ?></a>
                 </li>
             <?php endforeach; ?>
             <li class="pagination-item pagination-item-next">
-                <a href="/all-lots.php?category_name=<?= $_GET["category_name"]; ?>
+                <a href="/all-lots.php?category_name=<?= htmlspecialchars($_GET["category_name"]); ?>
                         &page=<?= numberOfNextPage($cur_page, $pages_count); ?>">Вперед</a>
             </li>
         </ul>

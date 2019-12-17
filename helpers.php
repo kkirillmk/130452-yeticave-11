@@ -301,12 +301,25 @@ function countingFromTheDateInHours($date_of_reference) {
     return floor(($current_time - $date_of_reference)/(60*60));
 }
 
-function databaseInsertData($link, $sql, $data = []) {
-    $stmt = db_get_prepare_stmt($link, $sql, $data);
+function dbInsertData($sql_connect, $sql, $data = []) {
+    $stmt = db_get_prepare_stmt($sql_connect, $sql, $data);
     $result = mysqli_stmt_execute($stmt);
 
     if ($result) {
-        $result = mysqli_insert_id($link);
+        $result = mysqli_insert_id($sql_connect);
+    }
+
+    return $result;
+}
+
+function dbFetchData($sql_connect, $sql, $data = []) {
+    $result = [];
+    $stmt = db_get_prepare_stmt($sql_connect, $sql, $data);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+
+    if ($res) {
+        $result = mysqli_fetch_all($res, MYSQLI_ASSOC);
     }
 
     return $result;
@@ -316,7 +329,7 @@ function numberOfPreviousPage($cur_page) {
     $check_on_page = $cur_page - 1;
 
     if ($check_on_page != 0) {
-        return $cur_page -= 1;
+        return $cur_page - 1;
     }
 
     return $cur_page;
@@ -329,4 +342,11 @@ function numberOfNextPage($cur_page, $pages_count) {
     }
 
     return $cur_page + 1;
+}
+
+function shieldedDataEntry($sql_connect, $input_data) {
+    $result = $input_data ?? "";
+    $result = mysqli_real_escape_string($sql_connect, $result);
+
+    return $result;
 }

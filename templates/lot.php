@@ -31,7 +31,8 @@
                         <?php endif; ?>
                     </div>
                 <?php else: ?>
-                    <div class="lot__timer timer <?php if (strpos((dateEndOfLot($lots[0]["date_end"])), "00:") === 0): ?>
+                    <div class="lot__timer timer <?php if (strpos((dateEndOfLot($lots[0]["date_end"])),
+                            "00:") === 0): ?>
                                         timer--finishing
                                         <?php endif; ?>">
                         <?= dateEndOfLot($lots[0]["date_end"]); ?>
@@ -49,9 +50,10 @@
                         </div>
                     </div>
                     <?php if ($_SESSION && $lots[0]["id_author"] !== $_SESSION["user"]["id"]
-                                        && $last_bet[0]["id_user"] !== $_SESSION["user"]["id"]): ?>
+                        && $last_bet[0]["id_user"] !== $_SESSION["user"]["id"]): ?>
                         <?php $classname = empty($errors) ? "" : "form--invalid"; ?>
-                        <form class="lot-item__form <?= $classname; ?>" action="../lot.php?id=<?= htmlspecialchars($_GET["id"]); ?>"
+                        <form class="lot-item__form <?= $classname; ?>"
+                              action="../lot.php?id=<?= htmlspecialchars($_GET["id"]); ?>"
                               method="post" autocomplete="off">
                             <?php $classname = !empty($errors) ? "form__item--invalid" : ""; ?>
                             <p class="lot-item__form-item form__item <?= $classname ?>">
@@ -76,7 +78,8 @@
                             <td class="history__price"><?= priceFormat($bet["bet_sum"]); ?></td>
                             <td class="history__time"><?= countingFromTheDateInHours($bet["date_placing"]) . " " .
                                 get_noun_plural_form(((int)countingFromTheDateInHours($bet["date_placing"])),
-                                    "час", "часа", "часов") ?> назад</td>
+                                    "час", "часа", "часов") ?> назад
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </table>

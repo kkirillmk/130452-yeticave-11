@@ -52,7 +52,7 @@
             <?php foreach ($pages as $page): ?>
                 <li class="pagination-item <?php if ($page == $cur_page): ?>pagination-item-active<?php endif; ?>">
                     <a href="/all-lots.php?category_name=<?= htmlspecialchars($_GET["category_name"]); ?>&page=<?= $page; ?>">
-                            <?= $page; ?></a>
+                        <?= $page; ?></a>
                 </li>
             <?php endforeach; ?>
             <li class="pagination-item pagination-item-next">

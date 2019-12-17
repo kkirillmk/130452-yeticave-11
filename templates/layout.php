@@ -55,7 +55,7 @@
             <?php foreach ($categories as $category): ?>
                 <li class="nav__item">
                     <a class="promo__link"
-                   href="../all-lots.php?category_name=<?= $category["name"]; ?>"><?= $category["name"]; ?></a>
+                       href="../all-lots.php?category_name=<?= $category["name"]; ?>"><?= $category["name"]; ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>

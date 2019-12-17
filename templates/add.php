@@ -26,7 +26,8 @@
             <select id="category" name="category">
                 <option>Выберите категорию</option>
                 <?php foreach ($categories as $category): ?>
-                    <option value="<?= $category["id"] ?>" <?php if ($category["id"] === getPostVal("category")): ?> selected <?php endif; ?>>
+                    <option value="<?= $category["id"] ?>"
+                        <?php if ($category["id"] === getPostVal("category")): ?> selected <?php endif; ?>>
                         <?= $category["name"]; ?></option>
                 <?php endforeach; ?>
             </select>
@@ -54,13 +55,15 @@
         <?php $classname = isset($errors["lot-rate"]) ? "form__item--invalid" : ""; ?>
         <div class="form__item form__item--small <?= $classname; ?>">
             <label for="lot-rate">Начальная цена <sup>*</sup></label>
-            <input id="lot-rate" type="text" name="lot-rate" placeholder="0" value="<?= getPostVal("lot-rate") ?>">
+            <input id="lot-rate" type="text" name="lot-rate" placeholder="0"
+                   value="<?= getPostVal("lot-rate") ?>">
             <span class="form__error">Введите начальную цену</span>
         </div>
         <?php $classname = isset($errors["lot-step"]) ? "form__item--invalid" : ""; ?>
         <div class="form__item form__item--small <?= $classname; ?>">
             <label for="lot-step">Шаг ставки <sup>*</sup></label>
-            <input id="lot-step" type="text" name="lot-step" placeholder="0" value="<?= getPostVal("lot-step") ?>">
+            <input id="lot-step" type="text" name="lot-step" placeholder="0"
+                   value="<?= getPostVal("lot-step") ?>">
             <span class="form__error">Введите шаг ставки</span>
         </div>
         <?php $classname = isset($errors["lot-date"]) ? "form__item--invalid" : ""; ?>

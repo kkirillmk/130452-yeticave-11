@@ -10,18 +10,17 @@ VALUES ('2019-10-22 12:00:00', 'kirillmk_kmk@mail.ru', 'Kirill', '12321', 'kiril
        ('2019-10-22 13:00:00', 'alex@mail.ru', 'Alex', 'qwerty', 'alex@mail.ru'),
        ('2019-10-22 14:00:00', 'artur@mail.ru', 'Artur', 'aezakmi', 'artur@mail.ru');
 INSERT INTO lots (id_category, id_author, date_created, name, description, img, starting_price, date_end, bet_step)
-VALUES ('1', '1', '2019-10-28 23:00:00', '2014 Rossignol District Snowboard', '', 'img/lot-1.jpg', '10999',
+VALUES ('1', '1', '2019-10-28 23:00:00', '2014 Rossignol District Snowboard', '123', 'img/lot-1.jpg', '10999',
         '2019-12-30', '500'),
-       ('1', '1', '2019-10-28 23:00:00', 'DC Ply Mens 2016/2017 Snowboard', '', 'img/lot-2.jpg', '159999', '2019-12-29',
-        '1000'),
-       ('2', '1', '2019-10-28 23:00:00', 'Крепления Union Contact Pro 2015 года размер L/XL', '', 'img/lot-3.jpg',
-        '8000', '2019-12-28',
-        '200'),
-       ('3', '3', '2019-10-28 23:00:00', 'Ботинки для сноуборда DC Mutiny Charocal', '', 'img/lot-4.jpg', '10999',
+       ('1', '1', '2019-10-28 23:00:00', 'DC Ply Mens 2016/2017 Snowboard', '321', 'img/lot-2.jpg', '159999',
+        '2019-12-29', '1000'),
+       ('2', '1', '2019-10-28 23:00:00', 'Крепления Union Contact Pro 2015 года размер L/XL', '123', 'img/lot-3.jpg',
+        '8000', '2019-12-28', '200'),
+       ('3', '3', '2019-10-28 23:00:00', 'Ботинки для сноуборда DC Mutiny Charocal', '321', 'img/lot-4.jpg', '10999',
         '2019-12-27', '500'),
-       ('4', '2', '2019-10-28 23:00:00', 'Куртка для сноуборда DC Mutiny Charocal', '', 'img/lot-5.jpg', '7500',
+       ('4', '2', '2019-10-28 23:00:00', 'Куртка для сноуборда DC Mutiny Charocal', '123', 'img/lot-5.jpg', '7500',
         '2019-12-26', '100'),
-       ('6', '3', '2019-10-28 23:00:00', 'Маска Oakley Canopy', '', 'img/lot-6.jpg', '5400', '2019-12-25', '100');
+       ('6', '3', '2019-10-28 23:00:00', 'Маска Oakley Canopy', '321', 'img/lot-6.jpg', '5400', '2019-12-25', '100');
 INSERT INTO bets (id_user, id_lot, date_placing, bet_sum)
 VALUES ('2', '5', '2019-11-10 11:30:00', '5500'),
        ('1', '5', '2019-11-10 12:31:30', '5600'),

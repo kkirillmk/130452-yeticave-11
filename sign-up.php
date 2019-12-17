@@ -54,7 +54,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$main_content = include_template("sign-up.php", ["categories" => $categories, "errors" => $errors, "form" => $form]);
+$main_content = include_template("sign-up.php", [
+    "categories" => $categories,
+    "errors" => $errors,
+    "form" => $form
+]);
 echo include_template("layout.php", [
     "main_content" => $main_content,
     "title" => "Регистрация",

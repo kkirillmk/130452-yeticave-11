@@ -60,9 +60,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!empty($errors)) {
         $main_content = include_template("add.php", [
-                                        "lot" => $lot,
-                                        "errors" => $errors,
-                                        "categories" => $categories
+            "lot" => $lot,
+            "errors" => $errors,
+            "categories" => $categories
         ]);
     } else {
         $sql = "INSERT INTO `lots` (`date_created`, `id_author`, `name`, `id_category`, `description`, `starting_price`,

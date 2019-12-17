@@ -26,7 +26,7 @@ $bets = sqlToArray($sql_connect, $sql);
 
 $win_bet_ids = [];
 $all_winners = [];
-foreach ($bets as $bet){
+foreach ($bets as $bet) {
     if (strtotime($bet["date_end"]) <= time()) {
         $sql = "SELECT `id`, `id_user` FROM `bets`
                 WHERE `id_lot` = {$bet["id_lot"]} ORDER BY `id` DESC LIMIT 1";

@@ -38,7 +38,7 @@ CREATE TABLE users
     date_registration DATE,
     email             VARCHAR(128) UNIQUE,
     name              VARCHAR(128) NOT NULL,
-    password          varchar(128) NOT NULL,
+    password          VARCHAR(128) NOT NULL,
     contacts          TEXT
 );
 

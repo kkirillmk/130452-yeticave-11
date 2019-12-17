@@ -14,20 +14,23 @@
         <?php foreach ($bets as $bet): ?>
             <?php if (in_array($bet["id"], $win_bet_ids)) {
                 $classname = "rates__item--win";
-            } elseif (strtotime($bet["date_end"]) <= time()){
+            } elseif (strtotime($bet["date_end"]) <= time()) {
                 $classname = "rates__item--end";
             } else {
                 $classname = "";
-            }?>
+            } ?>
             <tr class="rates__item <?= $classname; ?>">
                 <td class="rates__info">
                     <div class="rates__img">
                         <img src="../<?= $bet["img"]; ?>" width="54" height="40" alt="Сноуборд">
                     </div>
                     <div>
-                        <h3 class="rates__title"><a href="lot.php?id=<?= $bet["id_lot"]; ?>"><?= $bet["lot_name"]; ?></a>
+                        <h3 class="rates__title"><a
+                                    href="lot.php?id=<?= $bet["id_lot"]; ?>"><?= $bet["lot_name"]; ?></a>
                         </h3>
-                        <p><?php if (in_array($bet["id"], $win_bet_ids)){ echo $bet["contacts"]; } ?></p>
+                        <p><?php if (in_array($bet["id"], $win_bet_ids)) {
+                                echo $bet["contacts"];
+                            } ?></p>
                     </div>
                 </td>
                 <td class="rates__category">

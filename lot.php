@@ -73,8 +73,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"
             return validateIntGreaterThanZero($value);
         }
     ];
+    $rule_on_length = [
+        "cost" => function ($value) {
+            return maxLength9($value);
+        }
+    ];
     if (isset($rule["cost"])) {
         $rule = $rule["cost"];
+        $errors["cost"] = $rule($form["cost"]);
+    }
+    if (isset($rule_on_length["cost"])) {
+        $rule = $rule_on_length["cost"];
         $errors["cost"] = $rule($form["cost"]);
     }
     if ($form["cost"] < $min_bet) {

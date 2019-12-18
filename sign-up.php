@@ -14,7 +14,6 @@ $form = [];
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $fields = ["email", "password", "name", "message"];
     $form = filter_input_array(INPUT_POST, [
         "email" => FILTER_VALIDATE_EMAIL,
         "password" => FILTER_DEFAULT,
@@ -22,15 +21,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         "message" => FILTER_DEFAULT
     ], true
     );
-
-    foreach ($fields as $value) {
-        if (empty($form[$value])) {
-            $errors[$value] = "Поле $value не заполнено";
+    $rules = [
+        "email" => function ($value) {
+            return maxLength127($value);
+        },
+        "password" => function ($value) {
+            return maxLength127($value);
+        },
+        "name" => function ($date) {
+            return maxLength127($date);
+        },
+        "message" => function ($value) {
+            return maxLength127($value);
+        }
+    ];
+    foreach ($form as $key => $value) {
+        if (isset($rules[$key])) {
+            $rule = $rules[$key];
+            $errors[$key] = $rule($value);
+        }
+        if (empty($value)) {
+            $errors[$key] = "Поле " . htmlspecialchars($key) . " надо заполнить";
         }
     }
     if ($form["email"] === false) {
         $errors["email"] = "Введён некорректный email";
     }
+    $errors = array_filter($errors);
 
     if (empty($errors)) {
         $email = mysqli_real_escape_string($sql_connect, $form["email"]);

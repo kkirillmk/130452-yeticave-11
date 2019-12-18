@@ -30,25 +30,43 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         "lot-rate" => function ($value) {
             return validateGreaterThanZero($value);
         },
-        "lot-date" => function ($date) {
-            return validateDateEndOfLot($date);
+        "lot-date" => function ($selected_date) {
+            return validateDateEndOfLot($selected_date);
         },
         "lot-step" => function ($value) {
             return validateIntGreaterThanZero($value);
         }
     ];
+    $rules_on_length = [
+        "lot-name" => function ($value) {
+            return maxLength127($value);
+        },
+        "lot-rate" => function ($value) {
+            return maxLength9($value);
+        },
+        "message" => function ($date) {
+            return maxLength255($date);
+        },
+        "lot-step" => function ($value) {
+            return maxLength9($value);
+        }
+    ];
+
     foreach ($lot as $key => $value) {
         if (isset($rules[$key])) {
             $rule = $rules[$key];
             $errors[$key] = $rule($value);
         }
 
+        if (isset($rules_on_length[$key])) {
+            $rule = $rules_on_length[$key];
+            $errors[$key] = $rule($value);
+        }
+
         if (empty($value)) {
-            $errors[$key] = "Поле $key надо заполнить";
+            $errors[$key] = "Поле " . htmlspecialchars($key) . " надо заполнить";
         }
     }
-
-    $errors = array_filter($errors);
 
     $value_of_save = saveImage($lot, "lot-img", $errors);
 
@@ -57,6 +75,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         $errors["lot-img"] = $value_of_save;
     }
+
+    $errors = array_filter($errors);
 
     if (!empty($errors)) {
         $main_content = include_template("add.php", [

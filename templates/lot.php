@@ -21,32 +21,36 @@
         <div class="lot-item__right">
             <div class="lot-item__state">
                 <?php if (strtotime($lots[0]["date_end"]) <= time()): ?>
-                    <div class="lot__timer timer timer--end">Торги окончены</div><br>
+                    <div class="lot-item__timer timer timer--end">Торги окончены</div><br>
                     <div class="lot-item__cost-state">
-                        <?php if ($lots[0]["current_price"]): ?>
-                            <span class="lot__amount">Лот продан за:</span>
-                            <span class="lot__cost"><?= priceFormat($lots[0]["current_price"]); ?></span>
-                        <?php else: ?>
-                            <span class="lot__amount">Лот не был продан</span>
-                        <?php endif; ?>
+                        <div class="lot-item__rate">
+                            <?php if ($lots[0]["current_price"]): ?>
+                                <span class="lot__amount">Лот продан за:</span>
+                                <span class="lot__cost"><?= priceFormat($lots[0]["current_price"]); ?></span>
+                            <?php else: ?>
+                                <span class="lot__amount">Лот не был продан</span>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 <?php else: ?>
-                    <div class="lot__timer timer <?php if (strpos((dateEndOfLot($lots[0]["date_end"])),
+                    <div class="lot-item__timer timer <?php if (strpos((dateEndOfLot($lots[0]["date_end"])),
                             "00:") === 0): ?>
                                         timer--finishing
                                         <?php endif; ?>">
                         <?= dateEndOfLot($lots[0]["date_end"]); ?>
                     </div>
                     <div class="lot-item__cost-state">
-                        <?php if ($lots[0]["current_price"]): ?>
-                            <span class="lot__amount">Текущая цена</span>
-                            <span class="lot__cost"><?= priceFormat($lots[0]["current_price"]); ?></span>
-                        <?php else: ?>
-                            <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?= priceFormat($lots[0]["starting_price"]); ?></span>
-                        <?php endif; ?>
+                        <div class="lot-item__rate">
+                            <?php if ($lots[0]["current_price"]): ?>
+                                <span class="lot__amount">Текущая цена</span>
+                                <span class="lot__cost"><?= priceFormat($lots[0]["current_price"]); ?></span>
+                            <?php else: ?>
+                                <span class="lot__amount">Стартовая цена</span>
+                                <span class="lot__cost"><?= priceFormat($lots[0]["starting_price"]); ?></span>
+                            <?php endif; ?>
+                        </div>
                         <div class="lot-item__min-cost">
-                            Мин. ставка <span><?= priceFormat($lots[0]["bet_step"]); ?> р</span>
+                            Мин. ставка <span><?= priceFormat($min_bet); ?></span>
                         </div>
                     </div>
                     <?php if ($_SESSION && $lots[0]["id_author"] !== $_SESSION["user"]["id"]

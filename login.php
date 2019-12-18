@@ -11,12 +11,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         "password" => FILTER_DEFAULT
     ], true
     );
-    $fields = ["email", "password"];
-    $errors = [];
+    $rules = [
+        "email" => function ($value) {
+            return maxLength127($value);
+        },
+        "password" => function ($value) {
+            return maxLength127($value);
+        }
+    ];
+    foreach ($form as $key => $value) {
+        if (isset($rules[$key])) {
+            $rule = $rules[$key];
+            $errors[$key] = $rule($value);
+        }
 
-    foreach ($fields as $value) {
-        if (empty($form[$value])) {
-            $errors[$value] = "Поле $value надо заполнить";
+        if (empty($value)) {
+            $errors[$key] = "Поле " . htmlspecialchars($key) . " надо заполнить";
         }
     }
     if ($form["email"] === false) {
@@ -38,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         $errors["email"] = "Такой пользователь не найден";
     }
-
+    $errors = array_filter($errors);
     if (empty($errors)) {
         header("Location: /");
         exit();

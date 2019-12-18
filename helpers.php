@@ -218,13 +218,15 @@ function validateGreaterThanZero($value) {
     return null;
 }
 
-function validateDateEndOfLot($date) {
-    $ts_date = strtotime($date);
-    $tomorrow = time() + 86400;
+function validateDateEndOfLot($selected_date) {
+    date_default_timezone_set("Asia/Novosibirsk");
+    $ts_selected_date = strtotime($selected_date);
+    $tomorrow = new DateTime('tomorrow');
+    $tomorrow = $tomorrow->format("U");
 
-    if (!is_date_valid($date)) {
+    if (!is_date_valid($selected_date)) {
         return "Дата введена в неправильном формате (ГГГГ-ММ-ДД)";
-    } elseif (!($ts_date > $tomorrow)) {
+    } elseif (!($ts_selected_date >= $tomorrow)) {
         return "Указанная дата должна быть больше текущей даты, хотя бы на один день";
     }
 
@@ -246,6 +248,36 @@ function validateCategory($id, $allowed_list) {
 
     if (!in_array($id, $allowed_list)) {
         return "Указана несуществующая категория";
+    }
+
+    return null;
+}
+
+function maxLength255($value) {
+    $length = mb_strlen($value, "utf-8");
+
+    if ($length >= 256){
+        return "Введенное значение является слишком большим (Максимальное количество символов - 255)";
+    }
+
+    return null;
+}
+
+function maxLength127($value) {
+    $length = mb_strlen($value, "utf-8");
+
+    if ($length >= 128){
+        return "Введенное значение является слишком большим (Максимальное количество символов - 127)";
+    }
+
+    return null;
+}
+
+function maxLength9($value) {
+    $length = strlen($value);
+
+    if ($length >= 10){
+        return "Введенное значение является слишком большим (Максимальное количество символов - 10)";
     }
 
     return null;

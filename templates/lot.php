@@ -9,14 +9,14 @@
     </ul>
 </nav>
 <section class="lot-item container">
-    <h2><?= $lots[0]["name"]; ?></h2>
+    <h2><?= htmlspecialchars($lots[0]["name"]); ?></h2>
     <div class="lot-item__content">
         <div class="lot-item__left">
             <div class="lot-item__image">
                 <img src="<?= $lots[0]["img"]; ?>" width="730" height="548" alt="">
             </div>
             <p class="lot-item__category">Категория: <span><?= $lots[0]["category"]; ?></span></p>
-            <p class="lot-item__description"><?= $lots[0]["description"]; ?></p>
+            <p class="lot-item__description"><?= htmlspecialchars($lots[0]["description"]); ?></p>
         </div>
         <div class="lot-item__right">
             <div class="lot-item__state">
@@ -78,7 +78,7 @@
                 <table class="history__list">
                     <?php foreach ($bets as $bet): ?>
                         <tr class="history__item">
-                            <td class="history__name"><?= $bet["name"]; ?></td>
+                            <td class="history__name"><?= htmlspecialchars($bet["name"]); ?></td>
                             <td class="history__price"><?= priceFormat($bet["bet_sum"]); ?></td>
                             <td class="history__time"><?= countingFromTheDateInHours($bet["date_placing"]) . " " .
                                 get_noun_plural_form(((int)countingFromTheDateInHours($bet["date_placing"])),

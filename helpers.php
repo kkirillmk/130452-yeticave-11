@@ -284,7 +284,8 @@ function maxLength9($value) {
 }
 
 function getPostVal($name) {
-    return filter_input(INPUT_POST, $name);
+    $name = filter_input(INPUT_POST, $name);
+    return htmlspecialchars($name);
 }
 
 function getCategories($sql_connect) {

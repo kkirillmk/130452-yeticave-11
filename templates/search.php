@@ -11,28 +11,28 @@
 <div class="container">
     <?php if (!empty($_GET["search"])): ?>
         <section class="lots">
-            <h2>«Результаты поиска по запросу <span>"<?= htmlspecialchars($_GET["search"]) ?>"</span>»</h2>
+            <h2>«Результаты поиска по запросу <span>"<?= htmlspecialchars($_GET["search"]); ?>"</span>»</h2>
             <ul class="lots__list">
                 <?php foreach ($lots as $lot): ?>
                     <li class="lots__item lot">
                         <div class="lot__image">
-                            <img src="../<?= $lot["img"] ?>" width="350" height="260"
-                                 alt="<?= $lot["category_name"] ?>">
+                            <img src="../<?= $lot["img"]; ?>" width="350" height="260"
+                                 alt="<?= $lot["category_name"]; ?>">
                         </div>
                         <div class="lot__info">
-                            <span class="lot__category"><?= $lot["category_name"] ?></span>
+                            <span class="lot__category"><?= $lot["category_name"]; ?></span>
                             <h3 class="lot__title">
                                 <a class="text-link"
-                                   href="../lot.php?id=<?= $lot["id"]; ?>"><?= $lot["name"] ?></a>
+                                   href="../lot.php?id=<?= $lot["id"]; ?>"><?= htmlspecialchars($lot["name"]); ?></a>
                             </h3>
                             <div class="lot__state">
                                 <div class="lot__rate">
                                     <?php if ($lot["current_price"]): ?>
-                                        <span class="lot__amount">Ставок: <?= $lot["bets_count"] ?></span>
-                                        <span class="lot__cost"><?= $lot["current_price"] ?><b class="rub">р</b></span>
+                                        <span class="lot__amount">Ставок: <?= $lot["bets_count"]; ?></span>
+                                        <span class="lot__cost"><?= $lot["current_price"]; ?><b class="rub">р</b></span>
                                     <?php else: ?>
                                         <span class="lot__amount">Стартовая цена</span>
-                                        <span class="lot__cost"><?= $lot["starting_price"] ?><b class="rub">р</b></span>
+                                        <span class="lot__cost"><?= $lot["starting_price"]; ?><b class="rub">р</b></span>
                                     <?php endif; ?>
                                 </div>
                                 <div class="lot__timer timer

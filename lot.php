@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"
 
         $sql = "INSERT INTO `bets` (`date_placing`, `id_user`, `id_lot`, `bet_sum`)
                 VALUES (NOW(), '$id_user', '$id_lot', ?)";
-        if (!dbInsertData($sql_connect, $sql, $form)) {
+        if (!dbInsertData($sql_connect, $sql, [$form["cost"]])) {
             echo "Данные не добавлены";
             exit();
         }

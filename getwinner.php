@@ -23,8 +23,8 @@ $id_user = $_SESSION["user"]["id"] ?? "";
 if (isset($win_bets)) {
     foreach ($win_bets as $win_bet) {
         if ($win_bet["id_user"] === $id_user) {
-            $sql = "UPDATE `lots` SET `id_winner` = {$win_bet["id_user"]} WHERE `id` = {$win_bet["id_lot"]}";
-            $result = mysqli_query($sql_connect, $sql);
+            $sql = "UPDATE `lots` SET `id_winner` = ? WHERE `id` = ?";
+            $result = dbInsertData($sql_connect, $sql, [$win_bet["id_user"], $win_bet["id_lot"]]);
 
             if ($result === true) {
                 $transport = new Swift_SmtpTransport("phpdemo.ru", 25);
@@ -42,6 +42,7 @@ if (isset($win_bets)) {
                 $message->setBody($message_content, 'text/html');
 
                 $result = $mailer->send($message);
+                if ($result) {echo "OK";}
             }
         }
     }

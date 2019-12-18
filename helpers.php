@@ -338,10 +338,6 @@ function dbInsertData($sql_connect, $sql, $data = []) {
     $stmt = db_get_prepare_stmt($sql_connect, $sql, $data);
     $result = mysqli_stmt_execute($stmt);
 
-    if ($result) {
-        $result = mysqli_insert_id($sql_connect);
-    }
-
     return $result;
 }
 

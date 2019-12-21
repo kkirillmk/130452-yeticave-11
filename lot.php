@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"
     $errors = array_filter($errors);
 
     if (!empty($errors)) {
-        $main_content = include_template("lot.php", [
+        $main_content = includeTemplate("lot.php", [
             "lots" => $lots,
             "errors" => $errors,
             "categories" => $categories,
@@ -109,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"
             exit();
         }
 
-        $main_content = include_template("lot.php", [
+        $main_content = includeTemplate("lot.php", [
             "categories" => $categories,
             "lots" => $lots,
             "min_bet" => $min_bet,
@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"
         header("Location: /lot.php?id=$id_lot");
     }
 } else {
-    $main_content = include_template("lot.php", [
+    $main_content = includeTemplate("lot.php", [
         "categories" => $categories,
         "lots" => $lots,
         "min_bet" => $min_bet,
@@ -128,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"
     ]);
 }
 
-echo include_template("layout.php", [
+echo includeTemplate("layout.php", [
     "main_content" => $main_content,
     "title" => $lots[0]["name"],
     "categories" => $categories

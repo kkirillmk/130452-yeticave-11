@@ -32,7 +32,8 @@
                                         <span class="lot__cost"><?= $lot["current_price"]; ?><b class="rub">р</b></span>
                                     <?php else: ?>
                                         <span class="lot__amount">Стартовая цена</span>
-                                        <span class="lot__cost"><?= $lot["starting_price"]; ?><b class="rub">р</b></span>
+                                        <span class="lot__cost"><?= $lot["starting_price"]; ?><b
+                                                    class="rub">р</b></span>
                                     <?php endif; ?>
                                 </div>
                                 <div class="lot__timer timer

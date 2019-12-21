@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $errors = array_filter($errors);
 
     if (!empty($errors)) {
-        $main_content = include_template("add.php", [
+        $main_content = includeTemplate("add.php", [
             "lot" => $lot,
             "errors" => $errors,
             "categories" => $categories
@@ -97,10 +97,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 } else {
-    $main_content = include_template("add.php", ["categories" => $categories]);
+    $main_content = includeTemplate("add.php", ["categories" => $categories]);
 }
 
-echo include_template("layout.php", [
+echo includeTemplate("layout.php", [
     "main_content" => $main_content,
     "title" => "Добавление лота",
     "categories" => $categories

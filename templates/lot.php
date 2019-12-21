@@ -81,7 +81,7 @@
                             <td class="history__name"><?= htmlspecialchars($bet["name"]); ?></td>
                             <td class="history__price"><?= priceFormat($bet["bet_sum"]); ?></td>
                             <td class="history__time"><?= countingFromTheDateInHours($bet["date_placing"]) . " " .
-                                get_noun_plural_form(((int)countingFromTheDateInHours($bet["date_placing"])),
+                                getNounPluralForm(((int)countingFromTheDateInHours($bet["date_placing"])),
                                     "час", "часа", "часов") ?> назад
                             </td>
                         </tr>

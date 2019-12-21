@@ -38,11 +38,10 @@ if (isset($win_bets)) {
                 $message->setFrom(['keks@phpdemo.ru' => 'keks@phpdemo.ru']);
                 $message->setBcc($win_bet["email"]);
 
-                $message_content = include_template('email.php', ['win_bet' => $win_bet]);
+                $message_content = includeTemplate('email.php', ['win_bet' => $win_bet]);
                 $message->setBody($message_content, 'text/html');
 
                 $result = $mailer->send($message);
-                if ($result) {echo "OK";}
             }
         }
     }

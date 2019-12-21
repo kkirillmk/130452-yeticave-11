@@ -54,7 +54,7 @@
                 </td>
                 <td class="rates__time">
                     <?= $bet["date_placing"] . "<br>" . countingFromTheDateInHours($bet["date_placing"]) . " " .
-                    get_noun_plural_form(((int)countingFromTheDateInHours($bet["date_placing"])),
+                    getNounPluralForm(((int)countingFromTheDateInHours($bet["date_placing"])),
                         "час", "часа", "часов") ?> назад
                 </td>
             </tr>

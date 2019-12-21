@@ -37,14 +37,14 @@ $sql = "SELECT `lots`.`id`, `lots`.`name`, `starting_price`, `img`,
         ORDER BY `lots`.`id` DESC LIMIT {$page_items} OFFSET {$offset}";
 $lots = sqlToArray($sql_connect, $sql);
 
-$main_content = include_template("all-lots.php", [
+$main_content = includeTemplate("all-lots.php", [
     "categories" => $categories,
     "lots" => $lots,
     "pages_count" => $pages_count,
     "pages" => $pages,
     "cur_page" => $cur_page
 ]);
-echo include_template("layout.php", [
+echo includeTemplate("layout.php", [
     "main_content" => $main_content,
     "title" => $category_name,
     "categories" => $categories

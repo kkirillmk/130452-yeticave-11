@@ -39,12 +39,12 @@ foreach ($bets as $bet) {
 }
 $win_bet_ids = array_unique($win_bet_ids);
 
-$main_content = include_template("my-bets.php", [
+$main_content = includeTemplate("my-bets.php", [
     "categories" => $categories,
     "bets" => $bets,
     "win_bet_ids" => $win_bet_ids
 ]);
-echo include_template("layout.php", [
+echo includeTemplate("layout.php", [
     "main_content" => $main_content,
     "title" => "Мои ставки",
     "categories" => $categories,

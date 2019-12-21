@@ -54,13 +54,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    $main_content = include_template("login.php", [
+    $main_content = includeTemplate("login.php", [
         "categories" => $categories,
         "form" => $form,
         "errors" => $errors
     ]);
 } else {
-    $main_content = include_template("login.php", ["categories" => $categories]);
+    $main_content = includeTemplate("login.php", ["categories" => $categories]);
 
     if (isset($_SESSION["user"])) {
         header("Location: /");
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-echo include_template("layout.php", [
+echo includeTemplate("layout.php", [
     "main_content" => $main_content,
     "title" => "Вход",
     "categories" => $categories

@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
                 WHERE MATCH(`lots`.`name`, `lots`.`description`) AGAINST(?)
                     AND `lots`.`date_end` > NOW()";
-    $stmt = db_get_prepare_stmt($sql_connect, $sql, [$search]);
+    $stmt = dbGetPrepareSTMT($sql_connect, $sql, [$search]);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     $items_count = mysqli_fetch_assoc($result)['cnt'];
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 ORDER BY lots.id DESC LIMIT ? OFFSET ?";
     $lots = dbFetchData($sql_connect, $sql, [$search, $page_items, $offset]);
 
-    $main_content = include_template("search.php", [
+    $main_content = includeTemplate("search.php", [
         "categories" => $categories,
         "lots" => $lots,
         "pages_count" => $pages_count,
@@ -51,10 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         "cur_page" => $cur_page
     ]);
 } else {
-    $main_content = include_template("search.php", ["categories" => $categories]);
+    $main_content = includeTemplate("search.php", ["categories" => $categories]);
 }
 
-echo include_template("layout.php", [
+echo includeTemplate("layout.php", [
     "main_content" => $main_content,
     "title" => "Поиск",
     "categories" => $categories

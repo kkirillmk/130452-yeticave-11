@@ -18,11 +18,11 @@ $sql = "SELECT `lots`.`id`, `lots`.`name`, `starting_price`, `img`,
 $lots = sqlToArray($sql_connect, $sql);
 $categories = getCategories($sql_connect);
 
-$main_content = include_template("main.php", [
+$main_content = includeTemplate("main.php", [
     "categories" => $categories,
     "lots" => $lots
 ]);
-echo include_template("layout.php", [
+echo includeTemplate("layout.php", [
     "main_content" => $main_content,
     "title" => "Главная",
     "categories" => $categories
